@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computer Science</title>
+        <link rel="stylesheet" href="../project.css">
+    </head>
+    <body>
+
+    <nav class="navbar">
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        </label>
+
+        <ul class="nav-links">
+            <li><a href="../index.html"><ion-icon style="font-size: 30px;" name="home-outline"></ion-icon></a></li>
+            <li><a href="./meetingbrief.html" class="active"> Meeting the brief </a></li>
+            <li><a href="./investigation.html">Investigation</a></li>
+            <li><a href="./plananddesign.html">Plan and design</a></li>
+            <li><a href="./create.html">Create</a></li>
+            <li><a href="./evaluation.html">Evaluation</a></li>
+        </ul>
+    </nav>
+    <div class="page">
+        <div class="main-container" style="max-width: 900px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <ion-icon style="font-size: 40px;" name="folder-open-outline"></ion-icon>
+            <h1>Meeting the brief</h1>
+        </div>
+        <div>
+            <h1><mark>Basic requirements</mark></h1>
+            <h2 style="color: #00b7ff;">Basic requirement 1</h2>
+            <h4 style="color: #00ff8c;">Inputs:</h4>
+            <h5 style="color: #c3ff00;">Analog inputs:</h5>
+            <img src="../assets/analog_input_graph.jpg" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
+            <ul>
+                <li>Cup anaometer - Windspeed</li>
+                <li>Thermometer - Temperature</li>
+            </ul>
+            <h5 style="color: #c3ff00;">Digital inputs:</h5>
+            <img src="../assets/digital_input_graph.gif" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
+            <ul style="margin-bottom: 10px;">
+                <li>Button A - Start system</li>
+                <li>Button B - Connect to WiFi + <a href="https://thingspeak.mathworks.com/" target="_blank" style="color: #00f7ff;">ThingSpeak</a></li>
+            </ul>
+
+            <h4 style="color: #00ff8c;">Primary outputs:</h4>
+            <div>
+                <img src="../assets/mircobit.png" alt="mircobit" style="max-width: 150px; height: auto;  border-radius: 16px;"/>
+                <img src="../assets/oled_screen.png" alt="oled screen" style="max-width: 135px; height: auto;  border-radius: 16px;"/>
+            </div>
+            <ul style="margin-bottom: 10px;">
+                <li>LED screen</li>
+                <li>OLED screen</li>
+            </ul>
+            <h4 style="color: #00ff8c;">System start:</h4>
+            <ul style="margin-bottom: 20px;">
+                <li>System starts by automatically initialising variables and creating empty list (used to compute max gust) while displaying a loading bar.</br>System then promptes user to press B to start WiFi connection process</li>
+                <li>WiFi connection process begins when user presses B</br>System attempts to connect to WiFi, If successful then attempts to connect to thinkspeak (API + software used for data logging)</li>
+                <li>If all succesful, User presses A to start data logging process</li>
+                <li><mark>The system runs automatically once started by the user.</mark></li>
+            </ul>
+
+            <h2 style="color: #00b7ff;">Basic requirement 2</h2>
+            <h4 style="color: #00ff8c;">Collecting Enviromental data:</h4>
+            <img src="../assets/BR2_collection.png" alt="mircobit" style="max-width: 300px; height: auto; border-radius: 16px;"/>           
+            <ul style="margin-bottom: 20px;">
+                <li>Windspeed is collected by Cup anemometer<br/>Collected in meters per second but computed to knots by system (1 m/s = 1.94384 kt)</li>
+                <li>Temperature is collected by thermometer</li>
+                <li>Readings flow into the mircobit in an anaolog fashion</li>
+                <li>Extra readings are then computed derived from these readings including:</li>
+                <ul>
+                    <li>Max/Min temperature</li>
+                    <li>Max 10 minute (any time peroid can be choosen) Gust</li>
+                    <li>Mean wind</li>
+                </ul>
+            </ul>
+
+            <h4 style="color: #00ff8c;">Logging Enviromental data:</h4>
+            <img src="../assets/image.png" alt="mircobit" style="max-width: 300px; height: auto;  border-radius: 16px;"/>           
+            <ul style="margin-bottom: 20px;">
+                <li>Every time a set interval elapses, Computed data is sent to <a href="https://thingspeak.mathworks.com/" target="_blank" style="color: #00f7ff;">ThingSpeak</a></li>
+                <li>This is done via WiFi and connecting to the ThingSpeak API using an API key</li>
+                <li>I found ThingSpeak the most accurate method of data logging, I found serial to be inconsistant and the inbuilt data logger had space limitations</li>
+                <li>ThinkSpeak allowed for secure and accessible data storeage</li>
+            </ul>
+
+            <h2 style="color: #00b7ff;">Basic requirement 3</h2>
+            <h4 style="color: #00ff8c;">Simulation of real world process:</h4>
+        </div>
+    </div>
+    </body>
+</html>
+

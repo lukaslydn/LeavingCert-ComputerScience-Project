@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computer Science</title>
+        <link rel="stylesheet" href="../project.css">
+    </head>
+    <body>
+
+    <nav class="navbar">
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        </label>
+
+        <ul class="nav-links">
+            <li><a href="../index.html"><ion-icon style="font-size: 30px;" name="home-outline"></ion-icon></a></li>
+            <li><a href="./meetingbrief.html"> Meeting the brief </a></li>
+            <li><a href="./investigation.html">Investigation</a></li>
+            <li><a href="./plananddesign.html" class="active">Plan and design</a></li>
+            <li><a href="./create.html">Create</a></li>
+            <li><a href="./evaluation.html">Evaluation</a></li>
+        </ul>
+    </nav>
+    <div class="page">
+        <div class="main-container">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <ion-icon style="font-size: 40px;" name="layers-outline"></ion-icon>
+                <h1 style="margin: 0;">Plan and design</h1>
+            </div>
+
+
+
+            <!-- Scrollable Flowchart -->
+            <div class="diagram-wrapper">
+                <div id="diagram-container"></div>
+
+                <div class="zoom-controls">
+                    <button id="zoom-in">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <ion-icon name="add-outline"></ion-icon>
+                    </button>
+                    <button id="zoom-out">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <ion-icon name="remove-outline"></ion-icon>
+                    </button>
+                </div>
+            </div>
+            <script src="https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+            <script>
+                const container = document.getElementById('diagram-container');
+                let panZoom;
+
+                fetch('../LCCS project.svg')
+                .then(res => res.text())
+                .then(svgText => {
+                    container.innerHTML = svgText;
+                    
+
+                    const svg = container.querySelector('svg');
+                    // Remove draw.io background (usually first rect)
+                    const firstRect = svg.querySelector('rect');
+                    if (firstRect && firstRect.getAttribute('fill') === '#ffffff') {
+                    firstRect.remove();
+                    }
+
+                    // Insert draw.io-style grid
+                    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+                    defs.innerHTML = `
+                    <pattern id="grid-small" width="15" height="15" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#e5e5e5" stroke-width="0.5"/>
+                    </pattern>
+
+                    <pattern id="grid-large" width="50" height="50" patternUnits="userSpaceOnUse">
+                        <rect width="50" height="50" fill="url(#grid-small)"/>
+                        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#d0d0d0" stroke-width="1"/>
+                    </pattern>
+                    `;
+
+                    svg.insertBefore(defs, svg.firstChild);
+
+                    // Background rect
+                    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    bg.setAttribute('x', '-50000');
+                    bg.setAttribute('y', '-50000');
+                    bg.setAttribute('width', '100000');
+                    bg.setAttribute('height', '100000');
+                    bg.setAttribute('fill', 'url(#grid-large)');
+                    bg.setAttribute('pointer-events', 'none');
+
+                    svg.insertBefore(bg, svg.firstChild.nextSibling);
+
+
+                    // Responsive sizing
+                    svg.removeAttribute('width');
+                    svg.removeAttribute('height');
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+    
+                    const contentGroup = svg.querySelector('g') || svg;
+                    const contentBBox = contentGroup.getBBox();
+
+                    const panPadding = 5000;
+
+                    const bounds = {
+                        left: contentBBox.x - panPadding,
+                        right: contentBBox.x + contentBBox.width + panPadding,
+                        top: contentBBox.y - panPadding / 2,
+                        bottom: contentBBox.y + contentBBox.height + panPadding / 2
+                    };
+
+
+
+                    panZoom = svgPanZoom(svg, {
+                    zoomEnabled: true,
+                    panEnabled: true,
+                    minZoom: 1,
+                    maxZoom: 8,
+
+                    beforePan: function (oldPan, newPan) {
+                        const sizes = this.getSizes();
+                        const zoom = sizes.realZoom;
+
+                        const minX = sizes.width - bounds.right * zoom;
+                        const maxX = -bounds.left * zoom;
+                        const minY = sizes.height - bounds.bottom * zoom;
+                        const maxY = -bounds.top * zoom;
+
+                        return {
+                        x: Math.max(Math.min(newPan.x, maxX), minX),
+                        y: Math.max(Math.min(newPan.y, maxY), minY)
+                        };
+                    }
+                    });
+
+
+                    panZoom.fit();
+                    panZoom.center();
+                    panZoom.zoom(1.2);
+                    panZoom.panBy({ x: 0, y: 70 });
+
+                    svg.style.cursor = 'grab';
+                    svg.addEventListener('mousedown', () => svg.style.cursor = 'grabbing');
+                    svg.addEventListener('mouseup', () => svg.style.cursor = 'grab');
+                });
+
+
+                document.getElementById('zoom-in').onclick = () => panZoom?.zoomIn();
+                document.getElementById('zoom-out').onclick = () => panZoom?.zoomOut();
+            </script>
+
+            <!-- Write up -->
+            <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Why did you select this idea?</p>
+            <p style="text-align: center; font-weight: bold;">Forests are under threat to extreme weather</p>
+            <ul style="margin: 0;">
+                <li>Storm Eowyn demonstrated how extreme weather events can cause widespread damage to forests</li>
+                <li>Strong winds lead to fallen trees and long-term ecological stress</li>
+                <li>Software models can be used to make meaningful environmental predictions and focus on predicting weather extremes rather than reacting to disasters after</li>
+            </ul>
+    </div>
+    </body>
+</html>
+
