@@ -166,10 +166,33 @@
                     width: fit-content;
                     padding: 5px;
                     ">
-                    <span style="color:#9cdcfe;">Gust spike resolved as:  </span><span style="color:#b5cea8;">1.0637662135132027</span><br />
+                    <span style="color:#9cdcfe;">Gust amplification resolved as:  </span><span style="color:#b5cea8;">1.0637662135132027</span><br />
                     <span style="color:#9cdcfe;">Temperature amplification factor resolved as:  </span><span style="color:#b5cea8;">2.1316459228665514</span>
                 </p>
                 <li>For my embedded system I simulated extreme temperature and low winds which are evident from the amplication factors</li>
+            </ul>
+            <h2 style="color: #00b7ff;">Advanced requirement 2</h2>
+            <h4 style="color: #00ff8c;">What-if simulation:</h4>
+            <ul style="margin-bottom: 20px;">
+                <li>The model allows the user to modify the historical data</li>
+                <li>Example: <mark>What if Max Gust (kt) increased by 40%</mark></li>
+                <li>The system allows to edit:s</li>
+                <ul>
+                    <li>Percentage % increase ↑</li>
+                    <li>Percentage % decrease ↓</li>
+                    <li>Multiple variables can be edited</li>
+                    <li>Number of days into the future</li>
+                    <li>Number of simulation worlds</li>
+                </ul>
+                <li>Allowing to see how risk changes when different variables are changed</li>
+            </ul>
+            <h2 style="color: #00b7ff;">Advanced requirement 3</h2>
+            <h4 style="color: #00ff8c;">Feedback mechanism:</h4>
+            <img src="../assets/notis.png" style="max-width: 400px;"/>
+            <ul>
+                <li>My model classifies risk into multiple levels</li>
+                <li>A notifcation is sent to the device</li>
+                <li>The text and sound adapts based on the level</li>
             </ul>
         </div>
     </div>
