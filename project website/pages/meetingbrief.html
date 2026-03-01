@@ -101,6 +101,76 @@
                 <li>I found ThingSpeak the most accurate method of data logging, I found serial to be inconsistant and the inbuilt data logger had space limitations</li>
                 <li>ThinkSpeak allowed for secure and accessible data storeage</li>
             </ul>
+            <h4 style="color: #00ff8c;">Tests to see how the system responds:</h4>
+            <ul style="margin-bottom: 20px;">
+                <li></li>
+            </ul>
+
+            <h2 style="color: #00b7ff;">Advanced requirement 1</h2>
+            <h4 style="color: #00ff8c;">Computer model:</h4>
+            <ul style="margin-bottom: 20px;">
+                <li>My computer model takes in multiple weather variables</li>
+                <li>My model then generates many possible simulations (worlds)</li>
+                <li>In each simulation a 7-day future path for each variable is generated</li>
+                <li>Using an Autoregressive model with injected noise and randomness, Ideal for modeling short-term correlations in time-series data, where the influence of past observations diminishes over time. Which suits weather perfectly</li> 
+                <p style="
+                    background-color: #1e1e11;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 5px;
+                    ">
+                    <span style="color:#9cdcfe;">N</span> = <span style="color:#b5cea8;">8000</span>  <span style="color:#6a9955;"># Number of simulations</span><br />
+                    <span style="color:#9cdcfe;">H</span> = <span style="color:#b5cea8;">7</span>  <span style="color:#6a9955;"># Number of days into future</span>
+                </p>
+                <i>Example future simulated random Max Gust (kt)</i><br />
+                <img src="../assets/paths.png" style="max-width: 300px;"/>
+                
+            
+                <li>The system then takes the weather readings from each simulation and computes a Damage index score (DSI)</li>
+                <ul>
+                    <li>It does this by taking a varity of weather statistics from the simulation including rolling averages</li>
+                    <li>And weights and thresholds that are based on historical data and backpropogation </li>
+                </ul>
+                <li>The probability of a damaging event is calculated as the fraction of simulated scenarios where the maximum DSI exceeds the defined threshold, providing an estimate of</li>
+                P(DSI ≥ Threshold)
+                <li style="margin-bottom: 20px;">Threshold is set to 0.35 as this was the DSI that damaging storms like Storm Éowyn exceeded</li>
+                <i>Example DSI distribution of calm weather conditions</i><br />
+                <img src="../../MultivariableDSI.png" style="max-width: 300px;" />
+                <p><b>P(DSI ≥ 0.35) = 0.0424</b> | Percent: 4.24%</p>
+                <li>The Monte Carlo DSI distribution is positively skewed, with most simulated outcomes producing moderate stress levels and a smaller right-hand tail representing rare but severe conditions. The threshold lies within this upper tail, indicating that high-risk weather scenarios occur infrequently under baseline conditions but are statistically possible</li>
+
+                <li>Forestry damage is then estimated from DSI scores</li>
+                <ul>
+                    <li>Each DSI is converted into a <mark>Estimated foresty damage</mark></li>
+                    <li>If the DSI doesnt reach a certain threshold damage for that simulation is considered to be 0 (trees have a tipping point) The threshold was generated on historical damage also</li>
+                    <li>Damage is modeled exponentially. After surpassing the threshold, marginal increases in DSI lead to rapidly accelerating increases in forestry damage, because once environmental stress exceeds a critical tipping point, forest systems lose resilience and become increasingly vulnerable to compounding damage.</li>
+                </ul>
+                <li>Expected damage (ha) is then given as the mean of the calculated damage</li>
+                <img src="../assets/damagedistribution.png" style="max-width: 300px;"/>
+                <li>Expected damage (ha): 24, In only extreme statistical cases the damage is not 0 due to the calm past conditions of this simulation</li>
+            </ul>
+            
+            <h4 style="color: #00ff8c;">Combining data with my embedded system:</h4>
+            <ul>
+                <li>My embedded system gathered only 1 hour worth of data</li>
+                <li>But my model uses daily readings</li>
+                <li>So the challenge is: <b><i>how can I use my embedded systme data and combine it with my model?</i></b></li>
+                <li>My solution: I used the embedded data to estimate something it is good at measuring: 👉 Short-term extremes and volatility ( liability to change ) </li>
+                <li>Not by replacing historical data, Instead: When Monte Carlo simulates wind or temperature multiply by the embedded amplification factor.</li>
+                <li>It is a meaningful measure of how much stronger the variable was compared to typical conditions</li>
+                <p style="
+                    background-color: #1e1e11;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 5px;
+                    ">
+                    <span style="color:#9cdcfe;">Gust spike resolved as:  </span><span style="color:#b5cea8;">1.0637662135132027</span><br />
+                    <span style="color:#9cdcfe;">Temperature amplification factor resolved as:  </span><span style="color:#b5cea8;">2.1316459228665514</span>
+                </p>
+                <li>For my embedded system I simulated extreme temperature and low winds which are evident from the amplication factors</li>
+            </ul>
         </div>
     </div>
     </body>
