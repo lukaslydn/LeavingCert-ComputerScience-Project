@@ -236,3 +236,33 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+  table {
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid white;
+    border-collapse: collapse;
+  }
+
+  th {
+    background: #111;
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e5e5e5;
+    
+  }
+
+  td:hover {
+    background-color: #434343;
+  }
+
+  .pass  { color: #16a34a; font-weight: bold; }
+  .fail  { color: #dc2626; font-weight: bold; }
+  .error { color: #d97706; font-weight: bold; }

@@ -68,7 +68,112 @@
                 </div>
 
             </div>
-            <img style="max-width: 800px;;" src="../assets/model/unit testing.png" />
+            
+
+            <div style="display: flex; flex-direction: column">
+                <h2>Normalisation function</h2>
+                <img  src="../assets/model/normalisation function.png" style="max-width: 500px; align-self: center; border-radius: 10px;" />
+                <ul>
+                    <p><mark>Inputs:</mark></p>
+                    <li>x → the raw variable (e.g., wind speed, rainfall, surge height)</li>
+                    <li>limit → an extreme reference threshold</li>
+                    <li>power → controls curve shape (Obtained by backpropagation)</li>
+                    <p><mark>Reason for this function:</mark></p>
+                    <li>Each variable has different units and magnitudes. They cannot be combined directly. </li>
+                    <li>So they must be normalized to a comparable 0-1 risk scale.</li>
+                    <p><mark>Code:</mark></p>
+                    <li>x / limit - Scales the variable relative to its extreme threshold.</li>
+                    <li>Minimum/Maximum - caps the value to 1 or floors to 0</li>
+                    <li>power = 1.6, the curve becomes nonlinear. Storm damage is not linear. </li>
+                    
+                </ul>
+                <img style="max-width: 400px; align-self: center; border-radius: 10px; margin-top: 10px;" src="../assets/model/normalisation math.png"/>
+                <h3 style="text-align: center; margin: 20px 0;">Normalisation function Unit Testing</h3>
+                <img style="max-width: 700px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/normalisation unit test.png"/>
+                <table>
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>x</th>
+                        <th>limit</th>
+                        <th>power</th>
+                        <th>Expected</th>
+                        <th>Actual</th>
+                        <th>Notes</th>
+                        <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>1</td><td>0</td><td>100</td><td>1.6</td><td>0.0</td><td>0.0</td>
+                        <td>x=0 → output is 0</td>
+                        <td class="pass">PASS</td>
+                        </tr>
+                        <tr>
+                        <td>2</td><td>100</td><td>100</td><td>1.6</td><td>1.0</td><td>1.0</td>
+                        <td>x at limit → z=1, clamped to 1.0</td>
+                        <td class="pass">PASS</td>
+                        </tr>
+                        <tr>
+                        <td>3</td><td>-100,000</td><td>100</td><td>1.6</td><td>0.0</td><td>0.0</td>
+                        <td>np.maximum(0, x) floors negative input</td>
+                        <td class="pass">PASS</td>
+                        </tr>
+                        <tr>
+                        <td>4</td><td>1,000,000</td><td>100</td><td>1.6</td><td>1.0</td><td>1.0</td>
+                        <td>np.minimum(1, z) clamps extreme input</td>
+                        <td class="pass">PASS</td>
+                        </tr>
+                        <tr>
+                        <td>5</td><td>50</td><td>0</td><td>1.6</td><td>0</td><td>ZeroDivisionError</td>
+                        <td>No guard for limit=0 in function</td>
+                        <td class="error">ERROR</td>
+                        </tr>
+                        <tr>
+                        <td>6</td><td>50</td><td>100</td><td>0</td><td>1.0</td><td>1.0</td>
+                        <td>z^0 = 1 for any non-zero z</td>
+                        <td class="pass">PASS</td>
+                        </tr>
+                        <tr>
+                        <td>7</td><td>nan</td><td>100</td><td>1.6</td><td>0</td><td>nan</td>
+                        <td>nan propagates silently, poisons DSI score</td>
+                        <td class="fail">FAIL</td>
+                        </tr>
+                    </tbody>
+                </table>    
+            </div>
+
+
+            <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                <h2>Autoregressive model</h2>
+                <p>Generates correlated future weather paths instead of independent random draws.</p>
+                <ul>
+                    <li>I used an autoregressive model for this project as it’s the best fit for weather  
+                    <li>Future weather value depends on</li> 
+                    <ul>
+                    <li>its previous value</li>
+                    <li>long-term average</li>
+                    <li>random shock</li>
+                    </ul>
+                    <li>A Moving Average (MA) model would not suit weather forecasting because weather patterns rely heavily on physical momentum and seasonality (past values), whereas MA models ignore past values and rely purely on the "shocks" or errors of previous predictions. </li>
+
+                </ul>
+                <img style="max-width: 450px; border-radius: 16px; align-self: center;" src="../assets/model/autoregressive math.png"/>
+                <img style="max-width: 700px; border-radius: 16px; align-self: center; margin: 20px 0;" src="../assets/model/autoregressive model.png"/>
+                <p style="
+                    background-color: #1e1e11;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 5px;
+                    ">
+                    <span style="color:#9cdcfe;">Mu = series.mean()</span>
+                </p>
+                Gets the mean of the historical data: This is the “anchor” the process drifts towards
+            </div>
+
+
+
         </div>
     </div>
 
