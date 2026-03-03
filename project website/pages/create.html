@@ -145,7 +145,7 @@
 
 
             <div style="display: flex; flex-direction: column; margin: 20px 0;">
-                <h2>Autoregressive model</h2>
+                <h2>Autoregressive Predictive model</h2>
                 <p>Generates correlated future weather paths instead of independent random draws.</p>
                 <ul>
                     <li>I used an autoregressive model for this project as it’s the best fit for weather  
@@ -161,16 +161,73 @@
                 <img style="max-width: 450px; border-radius: 16px; align-self: center;" src="../assets/model/autoregressive math.png"/>
                 <img style="max-width: 700px; border-radius: 16px; align-self: center; margin: 20px 0;" src="../assets/model/autoregressive model.png"/>
                 <p style="
-                    background-color: #1e1e11;
+                    background-color: #090906;
                     color: #d4d4d4;
                     font-family: 'Consolas', 'Courier New', monospace;
                     width: fit-content;
-                    padding: 5px;
-                    ">
-                    <span style="color:#9cdcfe;">Mu = series.mean()</span>
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">mu</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">mean</span>()
                 </p>
-                Gets the mean of the historical data: This is the “anchor” the process drifts towards
-            </div>
+
+                <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
+                Gets the mean of the historical data: This is the “anchor” that the process drifts towards.
+                </p>
+
+                <p style="
+                    background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">sigma</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">std</span>(<span style="color:#9cdcfe;">ddof</span>=<span style="color:#b5cea8;">1</span>)
+                </p>
+
+                <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
+                Gets the sample standard deviation — measures typical variability. Higher std = higher chaos.
+                </p>
+
+                <p style="
+                    background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">phi</span> = <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">clip</span>(
+                    <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">corrcoef</span>(
+                        <span style="color:#9cdcfe;">series</span>[<span style="color:#b5cea8;">1</span>:],
+                        <span style="color:#9cdcfe;">series</span>[:-<span style="color:#b5cea8;">1</span>]
+                    )[<span style="color:#b5cea8;">0</span>, <span style="color:#b5cea8;">1</span>],
+                    <span style="color:#b5cea8;">0.3</span>,
+                    <span style="color:#b5cea8;">0.9</span>
+                )
+                </p>
+                Computes correlation "how much todays value depends on yesterdays" 
+                Clip it to ensure a stable simulation (min 0.3, max 0.9) 
+                <p style="margin-top: 20px; background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    
+                    white-space:pre;
+                    ">
+                <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t</span>] = (
+                    <span style="color:#9cdcfe;">phi</span> * <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t-1</span>]
+                    + (<span style="color:#b5cea8;">1</span> - <span style="color:#9cdcfe;">phi</span>) * <span style="color:#9cdcfe;">mu</span>
+                    + <span style="color:#9cdcfe;">sigma</span> * <span style="color:#dcdcaa;">rng</span>.<span style="color:#dcdcaa;">normal</span>()
+                )
+                </p>
+                <ul>
+                    <li>This loops through each day and calculates its new value</li>
+                    <li>(1 - phi ) is the balance, it pulls value back toward historical average.</li> 
+                    <li>Without this the process drifts and I would get unrealistic weather sequences</li>
+                </ul>
+        </div>
 
 
 
