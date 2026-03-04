@@ -38,6 +38,7 @@
         <div>
             <h1><mark>Basic requirements</mark></h1>
             <h2 style="color: #00b7ff;">Basic requirement 1</h2>
+            <p style="margin-bottom: 20px; color: #c2c2c2f7;">This embedded system satisfies BR1 by incorporating two analogue inputs, two digital inputs, and two primary digital outputs. The system operates automatically once the user completes initial setup</p>
             <h4 style="color: #00ff8c;">Inputs:</h4>
             <h5 style="color: #c3ff00;">Analog inputs:</h5>
             <img src="../assets/analog_input_graph.jpg" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
@@ -66,20 +67,20 @@
                 <li>System starts by automatically initialising variables and creating empty list (used to compute max gust) while displaying a loading bar.</br>System then promptes user to press B to start WiFi connection process</li>
                 <li>WiFi connection process begins when user presses B</br>System attempts to connect to WiFi, If successful then attempts to connect to thinkspeak (API + software used for data logging)</li>
                 <li>If all succesful, User presses A to start data logging process</li>
-                <li><mark>The system runs automatically once started by the user.</mark></li>
+                <li><mark>The system runs automatically once started by the user and logs/measures all values without any futher user input.</mark></li>
             </ul>
 
             <h2 style="color: #00b7ff;">Basic requirement 2</h2>
             <h4 style="color: #00ff8c;">Collecting Enviromental data:</h4>
             <img src="../assets/BR2_collection.png" alt="mircobit" style="max-width: 300px; height: auto; border-radius: 16px;"/>           
             <ul style="margin-bottom: 20px;">
-                <li>Windspeed is collected by Cup anemometer<br/>Collected in meters per second but computed to knots by system (1 m/s = 1.94384 kt)</li>
-                <li>Temperature is collected by thermometer</li>
+                <li><mark>Windspeed is collected by Cup anemometer</mark><br/>Collected in meters per second but computed to knots by system (1 m/s = 1.94384 kt)</li>
+                <li><mark>Temperature is collected by thermometer</mark></li>
                 <li>Readings flow into the mircobit in an anaolog fashion</li>
-                <li>Extra readings are then computed derived from these readings including:</li>
+                <li>Extra readings are then computed and derived from these readings including:</li>
                 <ul>
                     <li>Max/Min temperature</li>
-                    <li>Max 10 minute (any time peroid can be choosen) Gust</li>
+                    <li>Max 10 minute Gust (any time peroid can be choosen)</li>
                     <li>Mean wind</li>
                 </ul>
             </ul>
@@ -87,68 +88,87 @@
             <h4 style="color: #00ff8c;">Logging Enviromental data:</h4>
             <img src="../assets/image.png" alt="mircobit" style="max-width: 300px; height: auto;  border-radius: 16px;"/>           
             <ul style="margin-bottom: 20px;">
-                <li>Every time a set interval elapses, Computed data is sent to <a href="https://thingspeak.mathworks.com/" target="_blank" style="color: #00f7ff;">ThingSpeak</a></li>
+                <li>Every time a set interval elapses, <mark>Computed data is sent to <a href="https://thingspeak.mathworks.com/" target="_blank" style="color: #0062ff;">ThingSpeak</a></mark> Building a time-series dataset of windspeed and temperature readings over the session.</li>
                 <li>This is done via WiFi and connecting to the ThingSpeak API using an API key</li>
                 <li>I found ThingSpeak the most accurate method of data logging, I found serial to be inconsistant and the inbuilt data logger had space limitations</li>
                 <li>ThinkSpeak allowed for secure and accessible data storeage</li>
+                <li><mark>The stored ThingSpeak data is exported as a CSV and used directly by the computer model</mark></li>
             </ul>
 
             <h2 style="color: #00b7ff;">Basic requirement 3</h2>
             <h4 style="color: #00ff8c;">Simulation of real world process:</h4>
             <ul style="margin-bottom: 20px;">
-                <li>To simulate I used a fan and heater</li>
-                <li>I simulated extreme heat conditions and relativley low/moderate wind conditions</li>
+                <li><mark>To simulate a real world process I used a fan and heater</mark></li>
+                <li>I simulated extreme <mark>heat conditions (Drought / low-humidity conditions)</mark> and relativley <mark>low/moderate wind conditions (Light Breeze (4-6 knots) - Based on the Beaufort Scale: Leaves rustle)</mark> </li>
                 <li>As my model works from daily readings, In my hour long simulation I treated every 5 minutes like a new day!</li>
                 <i>Causing the weird high minimum temperature</i>
             </ul>
             <h4 style="color: #00ff8c;">Tests to see how the system responds:</h4>
             <ul style="margin-bottom: 20px;">
-                <li></li>
+                <li><b>Test 1</b> - Extreme heat: Heater raised temperature to ~60°C. System correctly updated max temperature. Amplification factor reflected the extreme reading.</li>
+                <li><b>Test 2</b> — No wind: Fan removed. System recorded zero windspeed. Mean wind dropped accordingly</li>
+                <li><b>Test 3</b> - Disconnecting Wi-Fi. System stopped computing and transmitting data, And displayed an Error message on the OLED screen</li>
             </ul>
-
             <h2 style="color: #00b7ff;">Advanced requirement 1</h2>
             <h4 style="color: #00ff8c;">Computer model:</h4>
             <ul style="margin-bottom: 20px;">
                 <li>My computer model takes in multiple weather variables</li>
-                <li>My model then generates many possible simulations (worlds)</li>
+                <li>My model uses a monte carlo simulation to generate many possible simulations (worlds)</li>
                 <li>In each simulation a 7-day future path for each variable is generated</li>
-                <li>Using an Autoregressive model with injected noise and randomness, Ideal for modeling short-term correlations in time-series data, where the influence of past observations diminishes over time. Which suits weather perfectly</li> 
+                <li>Because weather patterns rely heavily on physical momentum and seasonality (past values)</li>
+                <li>I used an <mark>autoregressive predictive model</mark> (introduced by British statistician George Udny Yule) with injected noise and randomness</li>which models short-term correlations in time-series data, where the influence of past observations diminishes over time.</li> 
+                <li>The randomness is to simulate all the unpredictable ways a weather system could change, allowing us to see a full range of possible paths the storm might take rather than just one.</li>
                 <p style="
                     background-color: #1e1e11;
                     color: #d4d4d4;
                     font-family: 'Consolas', 'Courier New', monospace;
                     width: fit-content;
                     padding: 5px;
+                    margin-top: 10px;
                     ">
-                    <span style="color:#9cdcfe;">N</span> = <span style="color:#b5cea8;">8000</span>  <span style="color:#6a9955;"># Number of simulations</span><br />
+                    <span style="color:#9cdcfe;">N</span> = <span style="color:#b5cea8;">8000</span>  <span style="color:#6a9955;"># Number of simulations / worlds</span><br />
                     <span style="color:#9cdcfe;">H</span> = <span style="color:#b5cea8;">7</span>  <span style="color:#6a9955;"># Number of days into future</span>
                 </p>
-                <i>Example future simulated random Max Gust (kt)</i><br />
-                <img src="../assets/paths.png" style="max-width: 300px;"/>
                 
+                <i>Example of 100 possible future paths of Temperature</i><br />
+                <div>
+                    <img src="../assets/model/temp paths.png" style="max-width: 300px; border-radius: 10px;"/>
+                    <img src="../assets/model/temp distribution.png" style="max-width: 300px; border-radius: 10px;"/>
+                </div>
+                <p style="margin-bottom: 40px;">The distribution of final day temperatures shows that most remain near the mean temperature with only rare cases going past 2 standard deviations</p>
             
-                <li>The system then takes the weather readings from each simulation and computes a Damage index score (DSI)</li>
+                <li>The system then takes the weather readings from each simulation and computes a Damage score index (DSI)</li>
                 <ul>
-                    <li>It does this by taking a varity of weather statistics from the simulation including rolling averages</li>
+                    <li>It does this by taking a varity of weather statistics from the simulation e.g rolling averages</li>
                     <li>And weights and thresholds that are based on historical data and backpropogation </li>
                 </ul>
                 <li>The probability of a damaging event is calculated as the fraction of simulated scenarios where the maximum DSI exceeds the defined threshold, providing an estimate of</li>
                 P(DSI ≥ Threshold)
+                <ul>
+                    <li>Simulated Experience:</li>
+                    <ul>
+                        <li>
+                            If you play a level in a game 100 times and lose 20 times, your "probability of losing" is 20%.
+                            Since we can't wait for 100 real-life storms to happen to gather data, we use the computer to "play" the storm 1,000 times.
+                            The fraction of those 1,000 games where the storm was strong enough to cause damage becomes your best estimate for the real-world risk.
+                        </li>
+                    </ul>
+                </ul>
                 <li style="margin-bottom: 20px;">Threshold is set to 0.35 as this was the DSI that damaging storms like Storm Éowyn exceeded</li>
                 <i>Example DSI distribution of calm weather conditions</i><br />
-                <img src="../../MultivariableDSI.png" style="max-width: 300px;" />
+                <img src="../../MultivariableDSI.png" style="max-width: 300px; border-radius: 10px;" />
                 <p><b>P(DSI ≥ 0.35) = 0.0424</b> | Percent: 4.24%</p>
                 <li>The Monte Carlo DSI distribution is positively skewed, with most simulated outcomes producing moderate stress levels and a smaller right-hand tail representing rare but severe conditions. The threshold lies within this upper tail, indicating that high-risk weather scenarios occur infrequently under baseline conditions but are statistically possible</li>
 
                 <li>Forestry damage is then estimated from DSI scores</li>
                 <ul>
                     <li>Each DSI is converted into a <mark>Estimated foresty damage</mark></li>
-                    <li>If the DSI doesnt reach a certain threshold damage for that simulation is considered to be 0 (trees have a tipping point) The threshold was generated on historical damage also</li>
+                    <li>If the DSI doesnt reach a certain threshold damage (Below a DSI of approximately 0.35) for that simulation is considered to be 0 (trees have a tipping point) The threshold was generated on historical damage also</li>
                     <li>Damage is modeled exponentially. After surpassing the threshold, marginal increases in DSI lead to rapidly accelerating increases in forestry damage, because once environmental stress exceeds a critical tipping point, forest systems lose resilience and become increasingly vulnerable to compounding damage.</li>
                 </ul>
-                <li>Expected damage (ha) is then given as the mean of the calculated damage</li>
-                <img src="../assets/damagedistribution.png" style="max-width: 300px;"/>
-                <li>Expected damage (ha): 24, In only extreme statistical cases the damage is not 0 due to the calm past conditions of this simulation</li>
+                <img src="../assets/damage response to DSI.png" style="max-width: 300px; border-radius: 10px;"/>
+                <li>In only rare statistical cases the damage is not 0 due to the calm historical conditions of this simulation</li>
+                <li>But as DSI increases the Expected damage (hectares) increases exponentially</li>
             </ul>
             
             <h4 style="color: #00ff8c;">Combining data with my embedded system:</h4>
@@ -169,31 +189,44 @@
                     <span style="color:#9cdcfe;">Gust amplification resolved as:  </span><span style="color:#b5cea8;">1.0637662135132027</span><br />
                     <span style="color:#9cdcfe;">Temperature amplification factor resolved as:  </span><span style="color:#b5cea8;">2.1316459228665514</span>
                 </p>
-                <li>For my embedded system I simulated extreme temperature and low winds which are evident from the amplication factors</li>
+                <li>For my embedded system simulation process I simulated extreme temperature and low winds which are evident from the amplication factors</li>
             </ul>
+            <p style="margin: 30px 0; background-color: #111e1e; border-radius: 5px;">The model uses 30 days of real historical meteorological data from Athenry weather station (Met Éireann open data), combined with the embedded system's amplification factors, to ground the Monte Carlo simulation in real-world conditions.</p>
+
             <h2 style="color: #00b7ff;">Advanced requirement 2</h2>
             <h4 style="color: #00ff8c;">What-if simulation:</h4>
             <ul style="margin-bottom: 20px;">
                 <li>The model allows the user to modify the historical data</li>
-                <li>Example: <mark>What if Max Gust (kt) increased by 40%</mark></li>
-                <li>The system allows to edit:s</li>
+                <li>Example what-if's: 
+
+                    <li><mark>What if Max Gust (kt) and Mean Wind Speed (kt) increased by 40% ?</mark></li>
+                    <p>A 40% increase caused a large increase in probaility from 4.24% to 40.31% - Expected as wind is weighted heavily in this model</p>
+                    <img src="../assets/model/beforeafterwind.jpg" style="max-width: 100%; border-radius: 10px;" />
+                    <li><mark>What if Max Temp (C) and Rain (mm) decreased by 80% ?</mark></li>
+                    <p>A 80% decrease caused a small decrease in probaility from 4.24% to 0.90% - Expected as Rain and tempeature are not weighted that heavily but still caused a decrease</p>
+                    <img src="../assets/model/beforeaftertemprain.jpg" style="max-width: 100%; border-radius: 10px;" />
+                </li>
+                <li>Multiple variables can be edited</li>
+                <li>The system allows the user to edit:</li>
                 <ul>
-                    <li>Percentage % increase ↑</li>
-                    <li>Percentage % decrease ↓</li>
-                    <li>Multiple variables can be edited</li>
+                    <li>Percentage % increase ↑ / decrease ↓</li>
                     <li>Number of days into the future</li>
                     <li>Number of simulation worlds</li>
                 </ul>
-                <li>Allowing to see how risk changes when different variables are changed</li>
-                <img style="max-width: 600px;" src="../assets/model/historical + whatif.png" /> 
+                <li>Allowing to see how risk changes when different variables are changed and creating many possible what-if scenarios</li>
+                <img style="max-width: 600px; border-radius: 10px;" src="../assets/model/historical + whatif.png" /> 
             </ul>
             <h2 style="color: #00b7ff;">Advanced requirement 3</h2>
             <h4 style="color: #00ff8c;">Adaptive Feedback mechanism:</h4>
-            <img src="../assets/notis.png" style="max-width: 400px;"/>
+            <img src="../assets/notis.png" style="max-width: 400px; border-radius: 10px;"/>
             <ul>
                 <li>My model classifies risk into multiple levels</li>
-                <li>A notifcation is sent to the device</li>
-                <li>The text and sound adapts based on the level</li>
+                <ul>
+                    <li>Low Storm Risk (P < 25%): A low-priority notification is sent with a calm sound. Text displays: 'Low storm risk — Probability: X%'</li>
+                    <li>High Storm Risk (25% ≤ P < 60%): A warning notification is sent with an alert sound. Text displays: 'HIGH STORM RISK — Probability: X%'</li>
+                    <li>Extreme Storm Risk (P ≥ 60%): A critical notification fires with an urgent alarm sound. Text displays: 'EXTREME STORM RISK — Probability: X%'</li>
+                </ul>
+                <li>The system responds automatically as conditions change</li>
             </ul>
         </div>
     </div>
