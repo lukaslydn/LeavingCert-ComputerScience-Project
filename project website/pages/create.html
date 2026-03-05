@@ -71,7 +71,10 @@
             
 
             <div style="display: flex; flex-direction: column">
-                <h2>Normalisation function</h2>
+                <div style="display: flex; gap: 5px;">
+                    <ion-icon style="font-size: 30px; color: aqua;" name="code-slash-outline"></ion-icon>
+                    <h2 style="color: aqua;">Normalisation function</h2>
+                </div>
                 <img  src="../assets/model/normalisation function.png" style="max-width: 500px; align-self: center; border-radius: 10px;" />
                 <img style="max-width: 500px; align-self: center; border-radius: 10px; margin-top: 10px;" src="../assets/model/normalisation math.png"/>
                 <ul>
@@ -144,8 +147,11 @@
             </div>
 
 
-            <div style="display: flex; flex-direction: column; margin: 20px 0;">
-                <h2>Autoregressive Predictive model</h2>
+        <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: aqua;" name="dice-outline"></ion-icon>
+                <h2 style="color: aqua;">Autoregressive Predictive model</h2>
+            </div>
                 <p>Generates correlated future weather paths instead of independent random draws.</p>
                 <ul>
                     <li>I used an autoregressive model for this project as it’s the best fit for weather  
@@ -227,6 +233,27 @@
                     <li>(1 - phi ) is the balance, it pulls value back toward historical average.</li> 
                     <li>Without this the process drifts and I would get unrealistic weather sequences</li>
                 </ul>
+        </div>
+
+        <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: aqua;" name="git-network-outline"></ion-icon>
+                <h2 style="color: aqua;">Incorporation of my embedded system readings + Problem I faced</h2>
+            </div>
+            <ul>
+                <li>My Model needs: Multiple daily weather readings</li>
+                <li>My embedded system measures 2 variables and I ran it for 1 hour</li>
+            </ul>
+                <p style="margin-top: 10px;"><mark>Problem I faced:</mark> how can I use my data and combine it with my models?</p>
+                <p><mark>How I overcame it:</mark> I used the embedded data to estimate something it is good at measuring</p>
+                <ul>
+                    <li>Short-term extremes and volatility ( liability to change )</li>
+                    <li>Not replacing historical data but instead: <mark>Multiplying by a calculated amplication factor derived from the embedded system</mark></li>
+                </ul>
+                <img src="../assets/model/amplication factor.png" style="border-radius: 10px; margin: 20px 0 0 0; max-width: 600px; align-self: center;" />
+                <img src="../assets/model/windspike math.png" style="margin: 20px 0 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+                <img src="../assets/model/tempamp math.png" style="margin: 0 0 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+
         </div>
 
 
