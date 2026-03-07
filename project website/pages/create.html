@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Computer Science</title>
         <link rel="stylesheet" href="../project.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
     </head>
     <body>
 
@@ -36,44 +36,12 @@
                 <ion-icon style="font-size: 40px;" name="build-outline"></ion-icon>
                 <h1>Create</h1>
             </div>
-
-            <div class="dashboard" style="margin-bottom: 100px;">
-
-                <div class="card">
-                    <h2>Mean Wind (kt)</h2>
-                    <div class="chart-wrapper">
-                        <canvas id="meanWind"></canvas>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>Max Minute Gust (kt)</h2>
-                    <div class="chart-wrapper">
-                        <canvas id="gust"></canvas>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>Max Temperature (°C)</h2>
-                    <div class="chart-wrapper">
-                        <canvas id="maxTemp"></canvas>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>Min Temperature (°C)</h2>
-                    <div class="chart-wrapper">
-                        <canvas id="minTemp"></canvas>
-                    </div>
-                </div>
-
-            </div>
             
 
             <div style="display: flex; flex-direction: column">
                 <div style="display: flex; gap: 5px;">
-                    <ion-icon style="font-size: 30px; color: aqua;" name="code-slash-outline"></ion-icon>
-                    <h2 style="color: aqua;">Normalisation function</h2>
+                    <ion-icon style="font-size: 30px; color: rgb(251, 255, 0);" name="code-slash-outline"></ion-icon>
+                    <h2 style="color: rgb(251, 255, 0);">Normalisation function</h2>
                 </div>
                 <img  src="../assets/model/normalisation function.png" style="max-width: 500px; align-self: center; border-radius: 10px;" />
                 <img style="max-width: 500px; align-self: center; border-radius: 10px; margin-top: 10px;" src="../assets/model/normalisation math.png"/>
@@ -91,7 +59,7 @@
                     <li>power = 1.6, the curve becomes nonlinear. Storm damage is not linear. </li>
                     
                 </ul>
-                <h3 style="text-align: center; margin: 20px 0;">Normalisation function Unit Testing</h3>
+                <h2 style="margin: 20px 0 0;">Normalisation function Unit Testing</h3>
                 <img style="max-width: 700px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/normalisation unit test.png"/>
                 <table>
                     <thead>
@@ -144,6 +112,41 @@
                         </tr>
                     </tbody>
                 </table>    
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 179);" name="magnet-outline"></ion-icon>
+                <h2 style="color: rgb(255, 0, 179);">Testing</h2>
+            </div>
+                <h2>
+                    Black box testing
+                </h2>
+                <ul>
+                    <li>I gave my program to my friend and explained what my system predicts</li>
+                    <li>My friend wanted to see if an increase in wind by 20% would cause an increase in the probaility of a storm</li>
+                    <li>The probability did increase and my friend was satifised</li>
+                </ul>
+
+
+                <h2>
+                    White box testing
+                </h2>
+                <ul>
+                    <li>I purposely fed the model null and nan values to represent undefined, unrepresentable, or missing numerical data</li>
+                    <li>My system intially could not handle it</li>
+                    <li>I updated my code to set all these values to 0 or throw an error to the user Example:</li>
+                    <img src="../assets/model/error handle.png" style="max-width: 500px; border-radius: 10px;"/>
+                </ul>
+
+                <h2>
+                    System testing
+                </h2>
+                <ul>
+                    <li>Tested the full pipeline from historical weather input → AR simulation → DSI calculation → forestry damage estimation.</li>
+                    <li>I confirmed that embedded system readings correctly modify the simulated wind and temperature values via the amplification factor.</li>
+                    <li>I verified that all visual outputs (graphs and probability results) correctly reflected the simulated data.</li>
+                </ul>
             </div>
 
 
@@ -237,8 +240,8 @@
 
         <div style="display: flex; flex-direction: column; margin: 20px 0;">
             <div style="display: flex; gap: 5px;">
-                <ion-icon style="font-size: 30px; color: aqua;" name="git-network-outline"></ion-icon>
-                <h2 style="color: aqua;">Incorporation of my embedded system readings + Problem I faced</h2>
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 0);" name="git-network-outline"></ion-icon>
+                <h2 style="color: rgb(255, 0, 0);">Incorporation of my embedded system readings + Problem I faced</h2>
             </div>
             <ul>
                 <li>My Model needs: Multiple daily weather readings</li>
@@ -252,151 +255,97 @@
                 </ul>
                 <img src="../assets/model/amplication factor.png" style="border-radius: 10px; margin: 20px 0 0 0; max-width: 600px; align-self: center;" />
                 <img src="../assets/model/windspike math.png" style="margin: 20px 0 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
-                <img src="../assets/model/tempamp math.png" style="margin: 0 0 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+                <ul>
+                    <li>Maximum recorded gust: represents the true peak wind intensity observed during the session</li>
+                    <li>Dividing it by the average sustained wind gives a physically meaningful measure of how much stronger extreme gusts were compared to typical wind conditions</li>
+                </ul>
+                <img src="../assets/model/tempamp math.png" style="margin: 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+                <ul>
+                    <li>Mean of the max embedded temperature divided by the mean of the historical data</li>
+                    <li>Showing how much stronger temperature was compared to historical data</li>
+                </ul>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(195, 0, 255);" name="shuffle-outline"></ion-icon>
+                        <h2 style="color: rgb(195, 0, 255);">Monte Carlo simulation</h2>
+                    </div>
+                    <img src="../assets/model/monte carlo.png" style="border-radius: 10px; margin: 20px 0 ; max-width: 450px; align-self: center;"/>
+                    <ul>
+                        <li>This function loops through 8000 simulations</li>
+                        <ul>
+                            <li>For each simulation a path for every variable is created using the simulate ar1 function</li>
+                            <li>Each simulation is one possible world of weather</li>
+                            <li>All simulation are stored in a dictionary</li>
+                        </ul>
+                        <li>Multiplying the simulated daily values of Wind and Max temp by the amplication factor (not the historical ones) before they go into the rolling calculations</li>
+                        <li>The floor zero is set to true for any variables that cant go below 0, e.g: Wind speed (cant be below 0kts)</li>
+                    </ul>
+                </div>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(9, 255, 0);" name="leaf-outline"></ion-icon>
+                        <h2 style="color: rgb(9, 255, 0);">DSI & Forestry damage computation</h2>
+                    </div>
+                    <img src="../assets/model/dsi compute.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <img src="../assets/model/dsi math.png" style="border-radius: 10px; margin:  0; max-width: 500px; align-self: center; background-color: white; padding: 10px;"/>
+                    <img src="../assets/model/dsimath1.png" style="border-radius: 10px; margin:  0 0 20px 0; max-width: 300px; align-self: center; background-color: white; padding: 10px;"/>
+                    
+                    <ul>
+                        <li>This function computes a Damage score index</li>
+                        <ul>
+                            <li>Rolling averages and other weather readings are calculated</li>
+                            <li>Each variable is normalised</li>
+                            <li>DSI is then determined based on a weighted combination of these normalised variables</li>
+                        </ul>
+                    </ul>
+                    <img src="../assets/model/damage from dsi.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>This function computes forestry damage in hectares (ha) from the DSI score</li>
+                        <ul>
+                            <li>If the DSI doesnt reach a certain threshold damage (Below a DSI of approximately 0.35) for that simulation is considered to be 0 (trees have a tipping point) The threshold was generated on historical damage</li>
+                            <li>Damage is modeled exponentially. After surpassing the threshold, marginal increases in DSI lead to rapidly accelerating increases in forestry damage, because once environmental stress exceeds a critical tipping point, forest systems lose resilience and become increasingly vulnerable to compounding damage.</li>
+                        </ul>
+                    </ul>
+                    <img src="../assets/model/run.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    
+                    
+                </div>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(0, 81, 255);" name="bar-chart-outline"></ion-icon>
+                        <h2 style="color: rgb(0, 81, 255);">Results</h2>
+                    </div>
+                    <img src="../assets/model/results.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>Probaility of a damaging storm happening</li>
+                    </ul>
 
+                    <img src="../../MultivariableDSI.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>Distribution of DSI in simulated worlds</li>
+                    </ul>
+                    <img src="../assets/model/risk evolution.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>
+                            Forecast uncertainty increases as the prediction forecast extends. 
+                            This is because, Randomness and model assumptions accumulate and amplify over time, leading to a wider range of possible outcomes.
+                        </li>
+                    </ul>
+                    <img src="../assets/model/dsi max gust corrolation.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <img src="../assets/model/correlation coefficient math.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 300px; align-self: center;"/>
+                    <ul>
+                        <li>
+                            There is a positive correlation coefficient of r = 0.5742, Because Max gust is weighted most heavily
+                        </li>
+                    </ul>
+            
+                </div>
         </div>
 
 
 
         </div>
     </div>
-
-    <style>
-        /*
-         * These rules patch the existing project.css dashboard styles
-         * to fix stretching on all screen sizes.
-         *
-         * Key fix: instead of a fixed height on .card with a raw <canvas>,
-         * we use a .chart-wrapper with padding-bottom aspect ratio trick
-         * so Chart.js can use responsive: true + maintainAspectRatio: false
-         * without ever distorting.
-         */
-
-        .card {
-            /* Let height be driven by the chart-wrapper, not a fixed px value */
-            height: auto !important;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            width: 100%;
-            /* ~16:9 feel — adjust % to taste */
-            padding-bottom: 56%;
-        }
-
-        .chart-wrapper canvas {
-            position: absolute !important;
-            inset: 0;
-            width: 100% !important;
-            height: 100% !important;
-        }
-    </style>
-
-    <script>
-        const csvData = `created_at,entry_id,Mean Wind (kt),Max minute gust (kt),Max temp (C),Min temp (C)
-2026-02-10 13:36:10 UTC,1,0,0,21,0
-2026-02-10 13:36:42 UTC,2,0,0,21.01,21
-2026-02-10 13:37:13 UTC,3,1,0,34.04,21.01
-2026-02-10 13:37:42 UTC,4,3,0,60,38.07
-2026-02-10 13:38:10 UTC,5,0,0.97192,60,60
-2026-02-10 13:38:38 UTC,6,0,0.97192,60,58.02
-2026-02-10 13:39:05 UTC,7,3,1.490277333,60,57
-2026-02-10 13:39:37 UTC,8,4,1.652264,60,60
-2026-02-10 13:40:09 UTC,9,4,2.624184,60,60
-2026-02-10 13:40:41 UTC,10,4,3.531309333,60,60
-2026-02-10 13:41:14 UTC,11,3,3.758090667,60,60
-2026-02-10 13:41:45 UTC,12,2,3.758090667,60,60
-2026-02-10 13:42:14 UTC,13,2,3.758090667,60,60
-2026-02-10 13:42:42 UTC,14,2,3.758090667,60,60
-2026-02-10 13:43:11 UTC,15,4,3.758090667,60,60
-2026-02-10 13:43:43 UTC,16,4,3.758090667,60,60
-2026-02-10 13:44:15 UTC,17,6,3.952474667,60,60
-2026-02-10 13:44:48 UTC,18,5,4.535626667,60,60
-2026-02-10 13:45:20 UTC,19,6,5.183573333,60,60
-2026-02-10 13:45:52 UTC,20,2,5.215970667,60,60
-2026-02-10 13:46:20 UTC,21,0,5.215970667,60,60
-2026-02-10 13:46:48 UTC,22,0,5.215970667,60,57.08
-2026-02-10 13:47:16 UTC,23,0,5.215970667,57.04,51.09`;
-
-        const rows = csvData.trim().split('\n');
-        const dataRows = rows.slice(1);
-
-        const labels = [], meanWind = [], gust = [], maxTemp = [], minTemp = [];
-
-        dataRows.forEach(row => {
-            const cols = row.trim().split(',');
-            // Show only HH:MM:SS as the x-axis label
-            labels.push(cols[0].trim().split(' ')[1]);
-            meanWind.push(+cols[2]);
-            gust.push(+cols[3]);
-            maxTemp.push(+cols[4]);
-            minTemp.push(+cols[5]);
-        });
-
-        const palette = {
-            meanWind: { line: '#5b8cff', fill: 'rgba(91,140,255,0.12)' },
-            gust:     { line: '#f97316', fill: 'rgba(249,115,22,0.12)' },
-            maxTemp:  { line: '#f43f5e', fill: 'rgba(244,63,94,0.12)' },
-            minTemp:  { line: '#4af0b0', fill: 'rgba(74,240,176,0.12)' },
-        };
-
-        function drawChart(id, label, data) {
-            const p = palette[id];
-            new Chart(document.getElementById(id), {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        label,
-                        data,
-                        borderColor: p.line,
-                        backgroundColor: p.fill,
-                        borderWidth: 2,
-                        tension: 0.35,
-                        pointRadius: 3,
-                        pointHoverRadius: 6,
-                        fill: true,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: items => `Time: ${items[0].label}`
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: '#6b7385',
-                                maxRotation: 0,
-                                maxTicksLimit: 5,
-                                font: { size: 10 }
-                            },
-                            grid: { color: 'rgba(255,255,255,0.04)' }
-                        },
-                        y: {
-                            ticks: {
-                                color: '#6b7385',
-                                maxTicksLimit: 5,
-                                font: { size: 10 }
-                            },
-                            grid: { color: 'rgba(255,255,255,0.04)' }
-                        }
-                    }
-                }
-            });
-        }
-
-        drawChart('meanWind', 'Mean Wind (kt)', meanWind);
-        drawChart('gust',     'Max Minute Gust (kt)', gust);
-        drawChart('maxTemp',  'Max Temperature (°C)', maxTemp);
-        drawChart('minTemp',  'Min Temperature (°C)', minTemp);
-    </script>
 
     </body>
 </html>

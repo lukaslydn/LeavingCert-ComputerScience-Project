@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Computer Science</title>
         <link rel="stylesheet" href="../project.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
 
@@ -72,6 +73,39 @@
 
             <h2 style="color: #00b7ff;">Basic requirement 2</h2>
             <h4 style="color: #00ff8c;">Collecting Enviromental data:</h4>
+
+            <p style="color: #d4d4d4bc;">Embedded system readings: </p>
+            <div class="dashboard" style="margin-bottom: 10px;">
+
+                <div class="card">
+                    <h2>Mean Wind (kt)</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="meanWind"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Max Minute Gust (kt)</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="gust"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Max Temperature (°C)</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="maxTemp"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Min Temperature (°C)</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="minTemp"></canvas>
+                    </div>
+                </div>
+
+            </div>
             <img src="../assets/BR2_collection.png" alt="mircobit" style="max-width: 300px; height: auto; border-radius: 16px;"/>           
             <ul style="margin-bottom: 20px;">
                 <li><mark>Windspeed is collected by Cup anemometer</mark><br/>Collected in meters per second but computed to knots by system (1 m/s = 1.94384 kt)</li>
@@ -230,6 +264,146 @@
             </ul>
         </div>
     </div>
+
+
+
+
+        <style>
+        /*
+         * These rules patch the existing project.css dashboard styles
+         * to fix stretching on all screen sizes.
+         *
+         * Key fix: instead of a fixed height on .card with a raw <canvas>,
+         * we use a .chart-wrapper with padding-bottom aspect ratio trick
+         * so Chart.js can use responsive: true + maintainAspectRatio: false
+         * without ever distorting.
+         */
+
+        .card {
+            /* Let height be driven by the chart-wrapper, not a fixed px value */
+            height: auto !important;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            /* ~16:9 feel — adjust % to taste */
+            padding-bottom: 56%;
+        }
+
+        .chart-wrapper canvas {
+            position: absolute !important;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+
+    <script>
+        const csvData = `created_at,entry_id,Mean Wind (kt),Max minute gust (kt),Max temp (C),Min temp (C)
+2026-02-10 13:36:10 UTC,1,0,0,21,0
+2026-02-10 13:36:42 UTC,2,0,0,21.01,21
+2026-02-10 13:37:13 UTC,3,1,0,34.04,21.01
+2026-02-10 13:37:42 UTC,4,3,0,60,38.07
+2026-02-10 13:38:10 UTC,5,0,0.97192,60,60
+2026-02-10 13:38:38 UTC,6,0,0.97192,60,58.02
+2026-02-10 13:39:05 UTC,7,3,1.490277333,60,57
+2026-02-10 13:39:37 UTC,8,4,1.652264,60,60
+2026-02-10 13:40:09 UTC,9,4,2.624184,60,60
+2026-02-10 13:40:41 UTC,10,4,3.531309333,60,60
+2026-02-10 13:41:14 UTC,11,3,3.758090667,60,60
+2026-02-10 13:41:45 UTC,12,2,3.758090667,60,60
+2026-02-10 13:42:14 UTC,13,2,3.758090667,60,60
+2026-02-10 13:42:42 UTC,14,2,3.758090667,60,60
+2026-02-10 13:43:11 UTC,15,4,3.758090667,60,60
+2026-02-10 13:43:43 UTC,16,4,3.758090667,60,60
+2026-02-10 13:44:15 UTC,17,6,3.952474667,60,60
+2026-02-10 13:44:48 UTC,18,5,4.535626667,60,60
+2026-02-10 13:45:20 UTC,19,6,5.183573333,60,60
+2026-02-10 13:45:52 UTC,20,2,5.215970667,60,60
+2026-02-10 13:46:20 UTC,21,0,5.215970667,60,60
+2026-02-10 13:46:48 UTC,22,0,5.215970667,60,57.08
+2026-02-10 13:47:16 UTC,23,0,5.215970667,57.04,51.09`;
+
+        const rows = csvData.trim().split('\n');
+        const dataRows = rows.slice(1);
+
+        const labels = [], meanWind = [], gust = [], maxTemp = [], minTemp = [];
+
+        dataRows.forEach(row => {
+            const cols = row.trim().split(',');
+            // Show only HH:MM:SS as the x-axis label
+            labels.push(cols[0].trim().split(' ')[1]);
+            meanWind.push(+cols[2]);
+            gust.push(+cols[3]);
+            maxTemp.push(+cols[4]);
+            minTemp.push(+cols[5]);
+        });
+
+        const palette = {
+            meanWind: { line: '#5b8cff', fill: 'rgba(91,140,255,0.12)' },
+            gust:     { line: '#f97316', fill: 'rgba(249,115,22,0.12)' },
+            maxTemp:  { line: '#f43f5e', fill: 'rgba(244,63,94,0.12)' },
+            minTemp:  { line: '#4af0b0', fill: 'rgba(74,240,176,0.12)' },
+        };
+
+        function drawChart(id, label, data) {
+            const p = palette[id];
+            new Chart(document.getElementById(id), {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label,
+                        data,
+                        borderColor: p.line,
+                        backgroundColor: p.fill,
+                        borderWidth: 2,
+                        tension: 0.35,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: items => `Time: ${items[0].label}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#6b7385',
+                                maxRotation: 0,
+                                maxTicksLimit: 5,
+                                font: { size: 10 }
+                            },
+                            grid: { color: 'rgba(255,255,255,0.04)' }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#6b7385',
+                                maxTicksLimit: 5,
+                                font: { size: 10 }
+                            },
+                            grid: { color: 'rgba(255,255,255,0.04)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        drawChart('meanWind', 'Mean Wind (kt)', meanWind);
+        drawChart('gust',     'Max Minute Gust (kt)', gust);
+        drawChart('maxTemp',  'Max Temperature (°C)', maxTemp);
+        drawChart('minTemp',  'Min Temperature (°C)', minTemp);
+    </script>
     </body>
 </html>
 
