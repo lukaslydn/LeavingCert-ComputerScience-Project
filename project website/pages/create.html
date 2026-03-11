@@ -61,57 +61,8 @@
                 </ul>
                 <h2 style="margin: 20px 0 0;">Normalisation function Unit Testing</h3>
                 <img style="max-width: 700px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/normalisation unit test.png"/>
-                <table>
-                    <thead>
-                        <tr>
-                        <th>#</th>
-                        <th>x</th>
-                        <th>limit</th>
-                        <th>power</th>
-                        <th>Expected</th>
-                        <th>Actual</th>
-                        <th>Notes</th>
-                        <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td>1</td><td>0</td><td>100</td><td>1.6</td><td>0.0</td><td>0.0</td>
-                        <td>x=0 → output is 0</td>
-                        <td class="pass">PASS</td>
-                        </tr>
-                        <tr>
-                        <td>2</td><td>100</td><td>100</td><td>1.6</td><td>1.0</td><td>1.0</td>
-                        <td>x at limit → z=1, clamped to 1.0</td>
-                        <td class="pass">PASS</td>
-                        </tr>
-                        <tr>
-                        <td>3</td><td>-100,000</td><td>100</td><td>1.6</td><td>0.0</td><td>0.0</td>
-                        <td>np.maximum(0, x) floors negative input</td>
-                        <td class="pass">PASS</td>
-                        </tr>
-                        <tr>
-                        <td>4</td><td>1,000,000</td><td>100</td><td>1.6</td><td>1.0</td><td>1.0</td>
-                        <td>np.minimum(1, z) clamps extreme input</td>
-                        <td class="pass">PASS</td>
-                        </tr>
-                        <tr>
-                        <td>5</td><td>50</td><td>0</td><td>1.6</td><td>0</td><td>ZeroDivisionError</td>
-                        <td>No guard for limit=0 in function</td>
-                        <td class="error">ERROR</td>
-                        </tr>
-                        <tr>
-                        <td>6</td><td>50</td><td>100</td><td>0</td><td>1.0</td><td>1.0</td>
-                        <td>z^0 = 1 for any non-zero z</td>
-                        <td class="pass">PASS</td>
-                        </tr>
-                        <tr>
-                        <td>7</td><td>nan</td><td>100</td><td>1.6</td><td>0</td><td>nan</td>
-                        <td>nan propagates silently, poisons DSI score</td>
-                        <td class="fail">FAIL</td>
-                        </tr>
-                    </tbody>
-                </table>    
+                <img style="max-width: 800px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/unit test.png"/>
+                 
             </div>
 
             <div style="display: flex; flex-direction: column; margin: 20px 0;">

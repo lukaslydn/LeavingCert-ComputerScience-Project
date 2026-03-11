@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/x-icon" href="../../Model/download.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computer Science</title>
+        <link rel="stylesheet" href="../project.css">
+        
+    </head>
+    <body>
+
+    <nav class="navbar">
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
+        <ul class="nav-links">
+            <li><a href="./index.html">Meeting the brief</a></li>
+            <li><a href="./investigation.html">Investigation</a></li>
+            <li><a href="./plananddesign.html">Plan and design</a></li>
+            <li><a href="./create.html" class="active">Create</a></li>
+            <li><a href="./evaluation.html">Evaluation</a></li>
+        </ul>
+    </nav>
+
+    <div class="page">
+        <div class="main-container">
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 1.5rem;">
+                <ion-icon style="font-size: 40px;" name="build-outline"></ion-icon>
+                <h1>Create</h1>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="display: flex; gap: 5px;">
+                    <ion-icon style="font-size: 30px; color: rgb(191, 0, 255);" name="alarm-outline"></ion-icon>
+                    <h2 style="color: rgb(200, 0, 255);">Key Milestones</h2>
+                </div>
+                <ul>
+                    <li>Embedded system - built and gathered data</li>
+                    <li>Fetched and cleaned data from met eirinn</li>
+                    <li>Developed model</li>
+                    <li>Overcame problem</li>
+                    <li>Evaluted results</li>
+                </ul>
+            </div>
+            
+
+            <div style="display: flex; flex-direction: column">
+                <div style="display: flex; gap: 5px;">
+                    <ion-icon style="font-size: 30px; color: rgb(251, 255, 0);" name="code-slash-outline"></ion-icon>
+                    <h2 style="color: rgb(251, 255, 0);">Normalisation function</h2>
+                </div>
+                <img  src="../assets/model/normalisation function.png" style="max-width: 100%; width: 500px; align-self: center; border-radius: 10px;" />
+                <img style="max-width: 100%; width: 500px; align-self: center; border-radius: 10px; margin-top: 10px;" src="../assets/model/normalisation math.png"/>
+                <ul>
+                    <p><mark>Inputs:</mark></p>
+                    <li>x → the raw variable (e.g., wind speed, rainfall, surge height)</li>
+                    <li>limit → an extreme reference threshold</li>
+                    <li>power → controls curve shape (Obtained by backpropagation)</li>
+                    <p><mark>Reason for this function:</mark></p>
+                    <li>Each variable has different units and magnitudes. They cannot be combined directly. </li>
+                    <li>So they must be normalized to a comparable 0-1 risk scale.</li>
+                    <p><mark>Code:</mark></p>
+                    <li>x / limit - Scales the variable relative to its extreme threshold.</li>
+                    <li>Minimum/Maximum - caps the value to 1 or floors to 0</li>
+                    <li>power = 1.6, the curve becomes nonlinear. Storm damage is not linear. </li>
+                    
+                </ul>
+                <h2 style="margin: 20px 0 0;">Normalisation function Unit Testing</h3>
+                <img style="max-width: 100%; width: 700px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/normalisation unit test.png"/>
+                <img style="max-width: 100%; width: 800px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/unit test.png"/>
+                 
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 179);" name="magnet-outline"></ion-icon>
+                <h2 style="color: rgb(255, 0, 179);">Testing</h2>
+            </div>
+                <h2>
+                    Black box testing
+                </h2>
+                <ul>
+                    <li>I gave my program to my friend and explained what my system predicts</li>
+                    <li>My friend wanted to see if an increase in wind by 20% would cause an increase in the probaility of a storm</li>
+                    <li>The probability did increase and my friend was satifised</li>
+                </ul>
+
+
+                <h2>
+                    White box testing
+                </h2>
+                <ul>
+                    <li>I purposely fed the model null and nan values to represent undefined, unrepresentable, or missing numerical data</li>
+                    <li>My system intially could not handle it</li>
+                    <li>I updated my code to set all these values to 0 or throw an error to the user Example:</li>
+                    <img src="../assets/model/error handle.png" style="max-width: 100%; width: 500px; border-radius: 10px;"/>
+                </ul>
+
+                <h2>
+                    System testing
+                </h2>
+                <ul>
+                    <li>Tested the full pipeline from historical weather input → AR simulation → DSI calculation → forestry damage estimation.</li>
+                    <li>I confirmed that embedded system readings correctly modify the simulated wind and temperature values via the amplification factor.</li>
+                    <li>I verified that all visual outputs (graphs and probability results) correctly reflected the simulated data.</li>
+                </ul>
+            </div>
+
+
+        <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: aqua;" name="dice-outline"></ion-icon>
+                <h2 style="color: aqua;">Autoregressive Predictive model</h2>
+            </div>
+                <p>Generates correlated future weather paths instead of independent random draws.</p>
+                <ul>
+                    <li>I used an autoregressive model for this project as it’s the best fit for weather  
+                    <li>Future weather value depends on</li> 
+                    <ul>
+                    <li>its previous value</li>
+                    <li>long-term average</li>
+                    <li>random shock</li>
+                    </ul>
+                    <li>A Moving Average (MA) model would not suit weather forecasting because weather patterns rely heavily on physical momentum and seasonality (past values), whereas MA models ignore past values and rely purely on the "shocks" or errors of previous predictions. </li>
+
+                </ul>
+                <img style="max-width: 100%; width: 450px; border-radius: 16px; align-self: center;" src="../assets/model/autoregressive math.png"/>
+                <img style="max-width: 100%; width: 700px; border-radius: 16px; align-self: center; margin: 20px 0;" src="../assets/model/autoregressive model.png"/>
+                <p style="
+                    background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">mu</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">mean</span>()
+                </p>
+
+                <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
+                Gets the mean of the historical data: This is the “anchor” that the process drifts towards.
+                </p>
+
+                <p style="
+                    background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">sigma</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">std</span>(<span style="color:#9cdcfe;">ddof</span>=<span style="color:#b5cea8;">1</span>)
+                </p>
+
+                <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
+                Gets the sample standard deviation — measures typical variability. Higher std = higher chaos.
+                </p>
+
+                <p style="
+                    background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                ">
+                <span style="color:#9cdcfe;">phi</span> = <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">clip</span>(
+                    <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">corrcoef</span>(
+                        <span style="color:#9cdcfe;">series</span>[<span style="color:#b5cea8;">1</span>:],
+                        <span style="color:#9cdcfe;">series</span>[:-<span style="color:#b5cea8;">1</span>]
+                    )[<span style="color:#b5cea8;">0</span>, <span style="color:#b5cea8;">1</span>],
+                    <span style="color:#b5cea8;">0.3</span>,
+                    <span style="color:#b5cea8;">0.9</span>
+                )
+                </p>
+                Computes correlation "how much todays value depends on yesterdays" 
+                Clip it to ensure a stable simulation (min 0.3, max 0.9) 
+                <p style="margin-top: 20px; background-color: #090906;
+                    color: #d4d4d4;
+                    font-family: 'Consolas', 'Courier New', monospace;
+                    width: fit-content;
+                    
+                    white-space:pre;
+                    ">
+                <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t</span>] = (
+                    <span style="color:#9cdcfe;">phi</span> * <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t-1</span>]
+                    + (<span style="color:#b5cea8;">1</span> - <span style="color:#9cdcfe;">phi</span>) * <span style="color:#9cdcfe;">mu</span>
+                    + <span style="color:#9cdcfe;">sigma</span> * <span style="color:#dcdcaa;">rng</span>.<span style="color:#dcdcaa;">normal</span>()
+                )
+                </p>
+                <ul>
+                    <li>This loops through each day and calculates its new value</li>
+                    <li>(1 - phi ) is the balance, it pulls value back toward historical average.</li> 
+                    <li>Without this the process drifts and I would get unrealistic weather sequences</li>
+                </ul>
+        </div>
+
+        <div style="display: flex; flex-direction: column; margin: 20px 0;">
+            <div style="display: flex; gap: 5px;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 0);" name="git-network-outline"></ion-icon>
+                <h2 style="color: rgb(255, 0, 0);">Incorporation of my embedded system readings + Problem I faced</h2>
+            </div>
+            <ul>
+                <li>My Model needs: Multiple daily weather readings</li>
+                <li>My embedded system measures 2 variables and I ran it for 1 hour</li>
+            </ul>
+                <p style="margin-top: 10px;"><mark>Problem I faced:</mark> how can I use my data and combine it with my models?</p>
+                <p><mark>How I overcame it:</mark> I used the embedded data to estimate something it is good at measuring</p>
+                <ul>
+                    <li>Short-term extremes and volatility ( liability to change )</li>
+                    <li>Not replacing historical data but instead: <mark>Multiplying by a calculated amplication factor derived from the embedded system</mark></li>
+                </ul>
+                <img src="../assets/model/amplication factor.png" style="border-radius: 10px; margin: 20px 0 0 0; max-width: 600px; align-self: center;" />
+                <img src="../assets/model/windspike math.png" style="margin: 20px 0 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+                <ul>
+                    <li>Maximum recorded gust: represents the true peak wind intensity observed during the session</li>
+                    <li>Dividing it by the average sustained wind gives a physically meaningful measure of how much stronger extreme gusts were compared to typical wind conditions</li>
+                </ul>
+                <img src="../assets/model/tempamp math.png" style="margin: 10px 0; background-color: white; padding:15px; border-radius: 10px; max-width: 600px; align-self: center;" />
+                <ul>
+                    <li>Mean of the max embedded temperature divided by the mean of the historical data</li>
+                    <li>Showing how much stronger temperature was compared to historical data</li>
+                </ul>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(195, 0, 255);" name="shuffle-outline"></ion-icon>
+                        <h2 style="color: rgb(195, 0, 255);">Monte Carlo simulation</h2>
+                    </div>
+                    <img src="../assets/model/monte carlo.png" style="border-radius: 10px; margin: 20px 0 ; max-width: 450px; align-self: center;"/>
+                    <ul>
+                        <li>This function loops through 8000 simulations</li>
+                        <ul>
+                            <li>For each simulation a path for every variable is created using the simulate ar1 function</li>
+                            <li>Each simulation is one possible world of weather</li>
+                            <li>All simulation are stored in a dictionary</li>
+                        </ul>
+                        <li>Multiplying the simulated daily values of Wind and Max temp by the amplication factor (not the historical ones) before they go into the rolling calculations</li>
+                        <li>The floor zero is set to true for any variables that cant go below 0, e.g: Wind speed (cant be below 0kts)</li>
+                    </ul>
+                </div>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(9, 255, 0);" name="leaf-outline"></ion-icon>
+                        <h2 style="color: rgb(9, 255, 0);">DSI & Forestry damage computation</h2>
+                    </div>
+                    <img src="../assets/model/dsi compute.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <img src="../assets/model/dsi math.png" style="border-radius: 10px; margin:  0; max-width: 500px; align-self: center; background-color: white; padding: 10px;"/>
+                    <img src="../assets/model/dsimath1.png" style="border-radius: 10px; margin:  0 0 20px 0; max-width: 300px; align-self: center; background-color: white; padding: 10px;"/>
+                    
+                    <ul>
+                        <li>This function computes a Damage score index</li>
+                        <ul>
+                            <li>Rolling averages and other weather readings are calculated</li>
+                            <li>Each variable is normalised</li>
+                            <li>DSI is then determined based on a weighted combination of these normalised variables</li>
+                        </ul>
+                    </ul>
+                    <img src="../assets/model/damage from dsi.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>This function computes forestry damage in hectares (ha) from the DSI score</li>
+                        <ul>
+                            <li>If the DSI doesnt reach a certain threshold damage (Below a DSI of approximately 0.35) for that simulation is considered to be 0 (trees have a tipping point) The threshold was generated on historical damage</li>
+                            <li>Damage is modeled exponentially. After surpassing the threshold, marginal increases in DSI lead to rapidly accelerating increases in forestry damage, because once environmental stress exceeds a critical tipping point, forest systems lose resilience and become increasingly vulnerable to compounding damage.</li>
+                        </ul>
+                    </ul>
+                    <img src="../assets/model/run.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    
+                    
+                </div>
+                <div style="display: flex; flex-direction: column; margin: 20px 0;">
+                    <div style="display: flex; gap: 5px;">
+                        <ion-icon style="font-size: 30px; color: rgb(0, 81, 255);" name="bar-chart-outline"></ion-icon>
+                        <h2 style="color: rgb(0, 81, 255);">Results</h2>
+                    </div>
+                    <img src="../assets/model/results.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>Probaility of a damaging storm happening</li>
+                    </ul>
+
+                    <img src="../assets/MultivariableDSI.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>Distribution of DSI in simulated worlds</li>
+                    </ul>
+                    <img src="../assets/model/risk evolution.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <ul>
+                        <li>
+                            Forecast uncertainty increases as the prediction forecast extends. 
+                            This is because, Randomness and model assumptions accumulate and amplify over time, leading to a wider range of possible outcomes.
+                        </li>
+                    </ul>
+                    <img src="../assets/model/dsi max gust corrolation.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
+                    <img src="../assets/model/correlation coefficient math.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 300px; align-self: center;"/>
+                    <ul>
+                        <li>
+                            There is a positive correlation coefficient of r = 0.5742, Because Max gust is weighted most heavily
+                        </li>
+                    </ul>
+            
+                </div>
+        </div>
+
+
+
+        </div>
+    </div>
+
+    </body>
+</html>

@@ -162,6 +162,7 @@ body {
 #diagram-container {
   width: 100%;
   height: 100%;
+  background-color: #ffffff;
 }
 
 /* Zoom buttons */
@@ -266,3 +267,96 @@ body {
   .pass  { color: #16a34a; font-weight: bold; }
   .fail  { color: #dc2626; font-weight: bold; }
   .error { color: #d97706; font-weight: bold; }
+
+
+
+
+
+  .timeline {
+      position: relative;
+      max-width: 600px;
+      padding: 0px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0; bottom: 0;
+      width: 2px;
+      background: rgb(45, 255, 69);
+    }
+
+    .event {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .event.left  { justify-content: flex-end;  padding-right: calc(50% + 22px); }
+    .event.right { justify-content: flex-start; padding-left:  calc(50% + 22px); }
+
+.event-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgb(45, 255, 69);
+  box-shadow: 0 0 6px rgb(45, 255, 69);
+  z-index: 2;
+  transition: 100ms ease-in-out all;
+  
+  /* Apply the animation here */
+  animation: dot-pulse 3s infinite;
+}
+
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(45, 255, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(45, 255, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 255, 69, 0);
+  }
+}
+
+
+    .event-content { text-align: right; }
+    .event.right .event-content { text-align: left; }
+
+    .event-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e6edf3;
+      line-height: 1.2;
+    }
+
+    .event-date {
+      font-size: 0.72rem;
+      color: rgb(45, 255, 69);
+      font-family: monospace;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 480px) {
+      .timeline::before { left: 12px; }
+      .event.left, .event.right {
+        justify-content: flex-start;
+        padding-left: 30px;
+        padding-right: 0;
+      }
+      .event-content { text-align: left !important; }
+      .event-dot { left: 12px; }
+    }
+
+
+
+
+
+
+

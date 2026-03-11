@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/x-icon" href="../../Model/download.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Computer Science</title>
+        <link rel="stylesheet" href="../project.css">
+    </head>
+    <body>
+
+    <nav class="navbar">
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        </label>
+
+        <ul class="nav-links">
+            <li><a href="./index.html"> Meeting the brief </a></li>
+            <li><a href="./investigation.html">Investigation</a></li>
+            <li><a href="./plananddesign.html" class="active">Plan and design</a></li>
+            <li><a href="./create.html">Create</a></li>
+            <li><a href="./evaluation.html">Evaluation</a></li>
+        </ul>
+    </nav>
+    <div class="page">
+        <div class="main-container">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <ion-icon style="font-size: 40px;" name="layers-outline"></ion-icon>
+                <h1 style="margin: 0;">Plan and design</h1>
+            </div>
+
+
+
+            <!-- Scrollable Flowchart -->
+            <div class="diagram-wrapper">
+                <div id="diagram-container"></div>
+
+                <div class="zoom-controls">
+                    <button id="zoom-in">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <ion-icon name="add-outline"></ion-icon>
+                    </button>
+                    <button id="zoom-out">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <ion-icon name="remove-outline"></ion-icon>
+                    </button>
+                </div>
+            </div>
+            <script src="https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+            <script>
+                const container = document.getElementById('diagram-container');
+                let panZoom;
+
+                fetch('../LCCS project.svg')
+                .then(res => res.text())
+                .then(svgText => {
+                    container.innerHTML = svgText;
+                    
+
+                    const svg = container.querySelector('svg');
+                    // Remove draw.io background (usually first rect)
+                    const firstRect = svg.querySelector('rect');
+                    if (firstRect) {
+                        firstRect.remove(); // remove regardless of colour
+                    }
+
+                    // Insert draw.io-style grid
+                    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+                    defs.innerHTML = `
+                    <pattern id="grid-small" width="15" height="15" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#e5e5e5" stroke-width="0.5"/>
+                    </pattern>
+
+                    <pattern id="grid-large" width="50" height="50" patternUnits="userSpaceOnUse">
+                        <rect width="50" height="50" fill="url(#grid-small)"/>
+                        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#d0d0d0" stroke-width="1"/>
+                    </pattern>
+                    `;
+
+                    svg.insertBefore(defs, svg.firstChild);
+                    // After inserting the SVG into the DOM:
+                    svg.style.colorScheme = 'light';
+                    svg.setAttribute('style', svg.getAttribute('style').replace('color-scheme: light dark', 'color-scheme: light'));
+                                        const bgRect = svg.querySelector('rect[width="100%"]');
+                    if (bgRect) {
+                        bgRect.setAttribute('fill', '#ffffff');
+                        bgRect.style.cssText = 'fill: #ffffff !important;';
+                    }
+
+                    svg.style.colorScheme = 'light';
+
+                    // Background rect
+                    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    bg.setAttribute('x', '-50000');
+                    bg.setAttribute('y', '-50000');
+                    bg.setAttribute('width', '100000');
+                    bg.setAttribute('height', '100000');
+                    bg.setAttribute('fill', 'url(#grid-large)');
+                    bg.setAttribute('pointer-events', 'none');
+
+                    svg.insertBefore(bg, svg.firstChild.nextSibling);
+
+
+                    // Responsive sizing
+                    svg.removeAttribute('width');
+                    svg.removeAttribute('height');
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+    
+                    const contentGroup = svg.querySelector('g') || svg;
+                    const contentBBox = contentGroup.getBBox();
+
+                    const panPadding = 5000;
+
+                    const bounds = {
+                        left: contentBBox.x - panPadding,
+                        right: contentBBox.x + contentBBox.width + panPadding,
+                        top: contentBBox.y - panPadding / 2,
+                        bottom: contentBBox.y + contentBBox.height + panPadding / 2
+                    };
+
+
+
+                    panZoom = svgPanZoom(svg, {
+                    zoomEnabled: true,
+                    panEnabled: true,
+                    minZoom: 1,
+                    maxZoom: 8,
+
+                    beforePan: function (oldPan, newPan) {
+                        const sizes = this.getSizes();
+                        const zoom = sizes.realZoom;
+
+                        const minX = sizes.width - bounds.right * zoom;
+                        const maxX = -bounds.left * zoom;
+                        const minY = sizes.height - bounds.bottom * zoom;
+                        const maxY = -bounds.top * zoom;
+
+                        return {
+                        x: Math.max(Math.min(newPan.x, maxX), minX),
+                        y: Math.max(Math.min(newPan.y, maxY), minY)
+                        };
+                    }
+                    });
+
+
+                    panZoom.fit();
+                    panZoom.center();
+                    panZoom.zoom(1.2);
+                    panZoom.panBy({ x: 0, y: 70 });
+
+                    svg.style.cursor = 'grab';
+                    svg.addEventListener('mousedown', () => svg.style.cursor = 'grabbing');
+                    svg.addEventListener('mouseup', () => svg.style.cursor = 'grab');
+                });
+
+
+                document.getElementById('zoom-in').onclick = () => panZoom?.zoomIn();
+                document.getElementById('zoom-out').onclick = () => panZoom?.zoomOut();
+            </script>
+
+            <!-- Write up -->
+
+            <!-- Idea selection -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Why did I select this idea?</p>
+                <p style="text-align: center; font-weight: bold;">Forests are under threat to extreme weather</p>
+                <ul style="margin: 0;">
+                    <li>Storm Eowyn demonstrated how extreme weather events can cause widespread damage to forests</li>
+                    <li>Strong winds lead to fallen trees and long-term ecological stress</li>
+                </ul>
+            </div>
+
+
+            <!-- System objectives -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">System Objectives</p>
+                <ul>
+                    <li>Measure wind speed and temperature in a forest environment using embedded sensors, operating automatically once started.</li>
+                    <li>Use an autoregressive model combined with Monte Carlo simulation to generate probabilistic forecasts of storm conditions and estimate Forestry Damage</li>
+                    <li>Trigger an adaptive, notification when the damage score crosses a risk thresholds, allowing Coillte forest managers to act before storm damage occurs.</li>
+                </ul>
+            </div>
+
+
+            <!-- Solutions -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Requirement solutions</p>
+                <p style="text-align: center; font-weight: bold;">Basic requirement 1</p>
+                <ul style="margin: 0;">
+                    <li>To gather analog data I will use a cup anemometer and a thermometer</li>
+                    <li>To gather digital data I will make user input calibrate the system via mircobit buttons</li>
+                    <li>To have the system run automatically I will use a forever loop</li>
+                </ul>
+                <p style="text-align: center; font-weight: bold;">Basic requirement 2</p>
+                <ul style="margin: 0;">
+                    <li>To store enviromental data I will use ThingSpeak</li>
+                    <li>It provides easy, accurate and secure data storeage</li>
+                </ul>
+                <p style="text-align: center; font-weight: bold;">Basic requirement 3</p>
+                <ul style="margin: 0;">
+                    <li>To simulate real world conditions I will use a heater and a fan</li>
+                </ul>
+
+                <p style="text-align: center; font-weight: bold;">Advanced requirement 1</p>
+                <ul style="margin: 0;">
+                    <li>To model disaster risk I will use a monte carlo simulation and an auto regressive model</li>
+                    <li>Based on my investigation, winds above 64 mph cause structural tree damage — this informed my DSI threshold</li>
+                </ul>
+
+                <p style="text-align: center; font-weight: bold;">Advanced requirement 2</p>
+                <ul style="margin: 0;">
+                    <li>To explore how my model behaves under different scenarios I will allow the user to edit historical data</li>
+                </ul>
+
+                <p style="text-align: center; font-weight: bold;">Advanced requirement 3</p>
+                <ul style="margin: 0;">
+                    <li>To include a feedback mechanism I will send a notification to the device</li>
+                    <li>That adapts to weather conditions: e.g High risk = High priority notification with sound</li>
+                </ul>
+            </div>
+
+            <!-- Pseudocode -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin: 40px 0;">
+            <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Pseudocode</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+                <img src="../assets/br 1 p.png" style="width: 45%; max-width: 400px; border-radius: 10px;" />
+                <img src="../assets/br 2 p.png" style="width: 45%; max-width: 400px; border-radius: 10px;" />
+                <img src="../assets/ar 1 p.png" style="width: 45%; max-width: 400px; border-radius: 10px;" />
+                <img src="../assets/ar 2 p.png" style="width: 45%; max-width: 400px; border-radius: 10px;" />
+                <img src="../assets/ar 3 p.png" style="width: 45%; max-width: 400px; border-radius: 10px;" />
+            </div>
+            </div>
+
+            <!-- Technology stack  -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Technology stack</p>
+                <ul style="margin: 0;">
+                    <li>Mircobit</li>
+                    <ul>
+                        <li>I am going to use over Raspberry Pi as I have worked with one before and mircobit handles all requirements</li>
+                    </ul>
+                    <li>Iot-environment kit</li>
+                    <ul>
+                        <li>Wind speed measurer - BR 1</li>
+                        <li>Temperature measurer - BR 1</li>
+                        <li>ThingSpeak - BR 2</li>
+                    </ul>
+                    <li>Heater and fan - BR 3</li>
+                    <li>Python</li>
+                    <ul>
+                        <li>Run predictive model - AR 1</li>
+                        <li>What-if simulations - AR 2</li>
+                        <li>Feedback mechanism - AR 3</li>
+                    </ul>
+                </ul>
+            </div>
+
+
+            <!-- System Design choices -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">System Design choices</p>
+                <ul style="margin: 0;">
+                    <li>I will use a jupyter notebook rather than a python file</li>
+                    <ul>
+                        <li>Iterative Model Refinement: The cell-based structure enables me to tweak individual variables in my forestry damage algorithms and re-run simulations instantly</li>
+                        <li>Far more efficient for "what-if" scenario</li>
+                        <li>It gives more control over what to run and enhances how results are shown</li>
+                    </ul>
+                    <li>
+                        I will run the forestry damage algorithms on an external server as a mircobit will not be able to handle it
+                    </li>
+                    <li>
+                        I am choosing to use a monte carlo simulation because I'm predicting the potential outcomes of weather by simulating them thousands or millions of times, replacing uncertain variables with probability distributions
+                    </li>
+                    <li>
+                        I will use ThingSpeak over Data logger as Datalogger has size limitations and over Serial USB because it gave me accuracy problems in the past
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Universal Design choices -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Universal Design choices</p>
+                <ul style="margin: 0;">
+                    <li>Simple, Interpretable risk output</li>
+                    <ul>
+                        <li>My system outputs a probaility rather than raw sensor readings. This is relevant to Imelda as a non-technical end user, she needs to make fast management decisions without needing to interpret wind speed arrays or AR model coefficients.</li>
+                    </ul>
+                    <li>
+                        Tiered Alert Notifications 
+                    </li>
+                    <ul>
+                        <li>alert priority ensures the system is usable in a real operational environment where Imelda's team may be outdoors, distracted, or managing multiple tasks simultaneously</li>
+                    </ul>
+                </ul>
+            </div>
+
+                    
+            <!-- Approach  -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Approach I'm taking</p>
+                <p style="text-align: center; font-weight: bold;">Iterative</p>
+                <ul style="margin: 0;">
+                    <li>Allows me to catch and fix bugs early</li>
+                    <li>Allows me to progressively refine the accuracy of my model</li>
+                </ul>
+            </div>
+            <!-- Timeline  -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+                
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Project timeline</p>
+                <div class="timeline">
+
+                    <div class="event left">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🕵🏻 Investigation</div>
+                        <div class="event-date">12 Dec 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="event right">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">📝 Plan and Design + Data gathering</div>
+                        <div class="event-date">9 Jan 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event left">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🛠️ Create : Embedded system</div>
+                        <div class="event-date">16 Jan 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event right">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🛠️ Create : Auto regressive prediction model</div>
+                        <div class="event-date">30 Jan 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event left">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🛠️ Create : Monte carlo simulation</div>
+                        <div class="event-date">6 Feb 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event right">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🛠️ Create : What-If senarios</div>
+                        <div class="event-date">13 Feb 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event left">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🛠️ Create : Feedback Mechanism</div>
+                        <div class="event-date">27 Feb 2026</div>
+                        </div>
+                    </div>
+                    <div class="event right">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🧪🔬🧑🏻‍💻 Testing</div>
+                        <div class="event-date">6 March 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event left">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">📽️ Video</div>
+                        <div class="event-date">13 Mar 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="event right">
+                        <div class="event-dot"></div>
+                        <div class="event-content">
+                        <div class="event-title">🤔 Evaluation/Reflection</div>
+                        <div class="event-date">16 Mar 2026</div>
+                        </div>
+                    </div>
+
+                    </div>
+                    <img src="../assets/iterations.png" style="max-width: 100%; width: 800px; border-radius: 10px; border: 4px solid rgba(0, 255, 30, 0.7);"/>
+            </div>
+
+            <!-- Stake holder -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Stake holder</p>
+                <img src="../assets/stakeholder.png" style="max-width: 100%; width: 600px; border-radius: 10px"/>
+            </div>
+
+
+            <!-- What if questions -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">What if questions</p>
+                <ul style="margin: 0;">
+                    <li>What if wind increased by 40% ?</li>
+                    <li>What if temperature and rain decreased by 80% ?</li>
+                </ul>
+            </div>
+
+            <!-- Core Modules -->
+            <div style="display: flex; flex-direction: column; margin: 20px 0;">            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Core Modules</p>
+                <ul>
+                    <li>ThingSpeak API: Data storeage </li>
+                    <li>Numpy: Numerical operations</li>
+                    <li>Pandas: Working with CSV files and data</li>
+                    <li>MatPlotlib: Plotting results for visualsiation</li>
+                </ul>
+            </div>
+
+            <!-- Different project options considered  -->
+            <div>            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Different project options</p>
+                <ul style="margin: 0;">
+                    <li>I considered creating wildfire model because fires also pose large risks to forests</li>
+                    <li>But Im going to stick with storm risk modelling as I have a solid plan in place</li>
+                </ul>
+            </div>
+
+            <!-- Abstraction -->
+            <div style="margin: 20px 0;">            
+                <p style="text-align: center; color: rgb(45, 202, 255); font-style: italic; font-size: 1.5rem;">Abstraction</p>
+                <ul>
+                    <li>I orginally was going to use Humidity and soil mositure measurements in my embedded system</li>
+                    <li>However after my investigation I discovered they are weighted very low</li>
+                    <li>Therefore it is not worth the cost of added this to my system and I will focus on wind and temperature as I feel these are essential to maintaining the essence of the embedded system</li>
+                </ul>
+            </div>
+
+
+<!-- TODO Reference investigation findings in design -->
+<!-- TODO Reduce word count to 600                    -->
+    </div>
+    </body>
+</html>
+

@@ -67,8 +67,8 @@
                     const svg = container.querySelector('svg');
                     // Remove draw.io background (usually first rect)
                     const firstRect = svg.querySelector('rect');
-                    if (firstRect && firstRect.getAttribute('fill') === '#ffffff') {
-                    firstRect.remove();
+                    if (firstRect) {
+                        firstRect.remove(); // remove regardless of colour
                     }
 
                     // Insert draw.io-style grid
@@ -86,6 +86,16 @@
                     `;
 
                     svg.insertBefore(defs, svg.firstChild);
+                    // After inserting the SVG into the DOM:
+                    svg.style.colorScheme = 'light';
+                    svg.setAttribute('style', svg.getAttribute('style').replace('color-scheme: light dark', 'color-scheme: light'));
+                                        const bgRect = svg.querySelector('rect[width="100%"]');
+                    if (bgRect) {
+                        bgRect.setAttribute('fill', '#ffffff');
+                        bgRect.style.cssText = 'fill: #ffffff !important;';
+                    }
+
+                    svg.style.colorScheme = 'light';
 
                     // Background rect
                     const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
