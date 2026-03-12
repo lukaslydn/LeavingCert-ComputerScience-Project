@@ -50,6 +50,65 @@
                     <li>Evaluted results</li>
                 </ul>
             </div>
+
+            <div>
+                <div style="display: flex; gap: 5px;">
+                    <ion-icon style="font-size: 30px; color: rgb(4, 255, 0);" name="terminal-outline"></ion-icon>
+                    <h2 style="color: rgb(4, 255, 0);">Embedded system</h2>
+                </div>
+
+                <div class="diagram-wrapper">
+                    <div id="diagram-container"></div>
+
+                    <div class="zoom-controls">
+                        <button id="zoom-in">
+                            <ion-icon name="search-outline"></ion-icon>
+                            <ion-icon name="add-outline"></ion-icon>
+                        </button>
+                        <button id="zoom-out">
+                            <ion-icon name="search-outline"></ion-icon>
+                            <ion-icon name="remove-outline"></ion-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <script src="https://unpkg.com/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
+                <script>
+                    const container = document.getElementById('diagram-container');
+                    let panZoom;
+
+                    fetch("../assets/microbit-screenshot.svg")
+                        .then(res => res.text())
+                        .then(svgText => {
+                            container.innerHTML = svgText;
+
+                            const svg = container.querySelector('svg');
+
+                            // Responsive sizing
+                            svg.removeAttribute('width');
+                            svg.removeAttribute('height');
+                            svg.style.width = '100%';
+                            svg.style.height = '100%';
+
+                            panZoom = svgPanZoom(svg, {
+                                zoomEnabled: true,
+                                panEnabled: true,
+                                minZoom: 0.5,
+                                maxZoom: 8,
+                            });
+
+                            panZoom.fit();
+                            panZoom.center();
+
+                            svg.style.cursor = 'grab';
+                            svg.addEventListener('mousedown', () => svg.style.cursor = 'grabbing');
+                            svg.addEventListener('mouseup', () => svg.style.cursor = 'grab');
+                        });
+
+                    document.getElementById('zoom-in').onclick = () => panZoom?.zoomIn();
+                    document.getElementById('zoom-out').onclick = () => panZoom?.zoomOut();
+                </script>
+            </div>
             
 
             <div style="display: flex; flex-direction: column">
@@ -76,7 +135,6 @@
                 <h2 style="margin: 20px 0 0;">Normalisation function Unit Testing</h3>
                 <img style="max-width: 100%; width: 700px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/normalisation unit test.png"/>
                 <img style="max-width: 100%; width: 800px; align-self: center; border-radius: 10px; margin-bottom: 10px;" src="../assets/model/unit test.png"/>
-                 
             </div>
 
             <div style="display: flex; flex-direction: column; margin: 20px 0;">
@@ -132,70 +190,23 @@
                     <li>A Moving Average (MA) model would not suit weather forecasting because weather patterns rely heavily on physical momentum and seasonality (past values), whereas MA models ignore past values and rely purely on the "shocks" or errors of previous predictions. </li>
 
                 </ul>
-                <img style="max-width: 100%; width: 450px; border-radius: 16px; align-self: center;" src="../assets/model/autoregressive math.png"/>
                 <img style="max-width: 100%; width: 700px; border-radius: 16px; align-self: center; margin: 20px 0;" src="../assets/model/autoregressive model.png"/>
-                <p style="
-                    background-color: #090906;
-                    color: #d4d4d4;
-                    font-family: 'Consolas', 'Courier New', monospace;
-                    width: fit-content;
-                    padding: 6px 10px;
-                    border-radius: 6px;
-                ">
-                <span style="color:#9cdcfe;">mu</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">mean</span>()
-                </p>
-
+                <img src="../assets/model/mean.png" style="max-width: 100%; width: 200px;"/>
                 <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
                 Gets the mean of the historical data: This is the “anchor” that the process drifts towards.
                 </p>
 
-                <p style="
-                    background-color: #090906;
-                    color: #d4d4d4;
-                    font-family: 'Consolas', 'Courier New', monospace;
-                    width: fit-content;
-                    padding: 6px 10px;
-                    border-radius: 6px;
-                ">
-                <span style="color:#9cdcfe;">sigma</span> = <span style="color:#9cdcfe;">series</span>.<span style="color:#dcdcaa;">std</span>(<span style="color:#9cdcfe;">ddof</span>=<span style="color:#b5cea8;">1</span>)
-                </p>
+                <img src="../assets/model/sigma.png" style="max-width: 100%; width: 300px;"/>
 
                 <p style="color:#d4d4d4; font-family:Segoe UI, sans-serif; margin-top:4px;">
                 Gets the sample standard deviation — measures typical variability. Higher std = higher chaos.
                 </p>
 
-                <p style="
-                    background-color: #090906;
-                    color: #d4d4d4;
-                    font-family: 'Consolas', 'Courier New', monospace;
-                    width: fit-content;
-                    padding: 6px 10px;
-                    border-radius: 6px;
-                ">
-                <span style="color:#9cdcfe;">phi</span> = <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">clip</span>(
-                    <span style="color:#9cdcfe;">np</span>.<span style="color:#dcdcaa;">corrcoef</span>(
-                        <span style="color:#9cdcfe;">series</span>[<span style="color:#b5cea8;">1</span>:],
-                        <span style="color:#9cdcfe;">series</span>[:-<span style="color:#b5cea8;">1</span>]
-                    )[<span style="color:#b5cea8;">0</span>, <span style="color:#b5cea8;">1</span>],
-                    <span style="color:#b5cea8;">0.3</span>,
-                    <span style="color:#b5cea8;">0.9</span>
-                )
-                </p>
+                <img src="../assets/model/phi.png" style="max-width: 100%; width: 700px;"/>
                 Computes correlation "how much todays value depends on yesterdays" 
                 Clip it to ensure a stable simulation (min 0.3, max 0.9) 
-                <p style="margin-top: 20px; background-color: #090906;
-                    color: #d4d4d4;
-                    font-family: 'Consolas', 'Courier New', monospace;
-                    width: fit-content;
-                    
-                    white-space:pre;
-                    ">
-                <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t</span>] = (
-                    <span style="color:#9cdcfe;">phi</span> * <span style="color:#9cdcfe;">paths</span>[<span style="color:#9cdcfe;">i</span>, <span style="color:#9cdcfe;">t-1</span>]
-                    + (<span style="color:#b5cea8;">1</span> - <span style="color:#9cdcfe;">phi</span>) * <span style="color:#9cdcfe;">mu</span>
-                    + <span style="color:#9cdcfe;">sigma</span> * <span style="color:#dcdcaa;">rng</span>.<span style="color:#dcdcaa;">normal</span>()
-                )
-                </p>
+                <img src="../assets/model/path calculation.png" style="max-width: 100%; width: 300px;"/>
+                <img style="max-width: 100%; width: 450px; border-radius: 16px;" src="../assets/model/autoregressive math.png"/>
                 <ul>
                     <li>This loops through each day and calculates its new value</li>
                     <li>(1 - phi ) is the balance, it pulls value back toward historical average.</li> 
@@ -206,7 +217,7 @@
         <div style="display: flex; flex-direction: column; margin: 20px 0;">
             <div style="display: flex; gap: 5px;">
                 <ion-icon style="font-size: 30px; color: rgb(255, 0, 0);" name="git-network-outline"></ion-icon>
-                <h2 style="color: rgb(255, 0, 0);">Incorporation of my embedded system readings + Problem I faced</h2>
+                <h2 style="color: rgb(255, 0, 0); margin-bottom: 20px;">Incorporation of my embedded system readings & <mark>Problem I faced</mark></h2>
             </div>
             <ul>
                 <li>My Model needs: Multiple daily weather readings</li>
@@ -282,28 +293,13 @@
                     </div>
                     <img src="../assets/model/results.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
                     <ul>
-                        <li>Probaility of a damaging storm happening</li>
+                        <li>Probaility of a damaging storm happening: 4.24%</li>
                     </ul>
 
                     <img src="../assets/MultivariableDSI.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
-                    <ul>
-                        <li>Distribution of DSI in simulated worlds</li>
-                    </ul>
                     <img src="../assets/model/risk evolution.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
-                    <ul>
-                        <li>
-                            Forecast uncertainty increases as the prediction forecast extends. 
-                            This is because, Randomness and model assumptions accumulate and amplify over time, leading to a wider range of possible outcomes.
-                        </li>
-                    </ul>
-                    <img src="../assets/model/dsi max gust corrolation.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 500px; align-self: center;"/>
-                    <img src="../assets/model/correlation coefficient math.png" style="border-radius: 10px; margin: 20px 0 5px 0; max-width: 300px; align-self: center;"/>
-                    <ul>
-                        <li>
-                            There is a positive correlation coefficient of r = 0.5742, Because Max gust is weighted most heavily
-                        </li>
-                    </ul>
-            
+                    <img src="../assets/model/dsi max gust corrolation.png" style="border-radius: 10px; margin: 20px 0 0px 0; max-width: 500px; align-self: center;"/>
+                    <img src="../assets/model/correlation coefficient math.png" style="border-radius: 10px; max-width: 300px; align-self: center;"/>
                 </div>
         </div>
 
@@ -314,3 +310,5 @@
 
     </body>
 </html>
+
+<!-- 800 words -->

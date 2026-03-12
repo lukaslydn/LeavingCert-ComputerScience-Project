@@ -48,7 +48,12 @@
 
         <!-- Content -->
         <div>
-
+            <div style="margin: 40px 0; display: flex; align-items: center; justify-content: center;">
+                <video width="90%" height="auto" style="border-radius: 10px;" controls autoplay>
+                <source src="../assets/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video>
+            </div>
 
 
             <!-- BASIC REQUIREMENT 1 -->
@@ -122,28 +127,24 @@
                 </ul>
 
                 <!-- Interactive graphs  -->
-                <p style="color: #d4d4d4bc;">Embedded system readings: </p>
+                <p style="color: #d4d4d4bc;" data-label="Embedded system readings:"></p>
                 <div class="dashboard" style="margin-bottom: 10px;">
-                    <div class="card">
-                        <h2>Mean Wind (kt)</h2>
+                    <div class="card" data-title="Mean Wind (kt)">
                         <div class="chart-wrapper">
                             <canvas id="meanWind"></canvas>
                         </div>
                     </div>
-                    <div class="card">
-                        <h2>Max Minute Gust (kt)</h2>
+                    <div class="card" data-title="Max Minute Gust (kt)">
                         <div class="chart-wrapper">
                             <canvas id="gust"></canvas>
                         </div>
                     </div>
-                    <div class="card">
-                        <h2>Max Temperature (°C)</h2>
+                    <div class="card" data-title="Max Temperature (°C)">
                         <div class="chart-wrapper">
                             <canvas id="maxTemp"></canvas>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
@@ -175,7 +176,6 @@
                         <ul>
                             <li>If the DSI doesnt reach a certain threshold, damage for that simulation is considered to be 0 ( trees have a tipping point )</li>
                         </ul>
-                        <li>Damage rises exponentially beyond the threshold, forests become weak and increasingly vulnerable to compounding stress.</li>
                         <img src="../assets/damage response to DSI.png" style="max-width: 300px; border-radius: 10px;"/>
                     </ul>
                 </div>
@@ -393,3 +393,5 @@
     </body>
 </html>
 
+
+<!-- 434 words  -->
