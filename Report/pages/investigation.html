@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+                <link rel="icon" type="image/x-icon" href="../../Model/download.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Investigation</title>
+        <link rel="stylesheet" href="../project.css">
+    </head>
+    <body>
+
+    <nav class="navbar">
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        </label>
+
+        <ul class="nav-links">
+            <li><a href="../index.html"> Meeting the brief </a></li>
+            <li><a href="./investigation.html"class="active">Investigation</a></li>
+            <li><a href="./plananddesign.html" >Plan and design</a></li>
+            <li><a href="./create.html">Create</a></li>
+            <li><a href="./evaluation.html">Evaluation</a></li>
+            <li><a href="./wordcount.html">Word count</a></li>
+            <li><a href="./references.html">References</a></li>
+        </ul>
+    </nav>
+
+    <div class="page">
+        <div class="main-container">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <ion-icon style="font-size: 40px;" name="search-outline"></ion-icon>
+            <h1>Investigation</h1>
+        </div>
+
+        <div>
+            <ul style="margin: 20px 0;">
+                <li>I was interested in how software models can be used to make meaningful environmental predictions by applying my skills from leaving cert computer science.</li>
+                <li><a style="color: rgb(0, 234, 255);" href="https://www.coford.ie/media/coford/content/publications/cofordarticles/Managing%20forests%20and%20predicting%20windthrow%20risk%20in%20Ireland.pdf" target="_blank">The winter of 2024/2025 saw significant damage from Storm Darragh and Storm Éowyn, impacting over 26,000 hectares of Irish forest,</a> demonstrating how extreme weather events can cause widespread damage to forests, with strong winds leading to fallen trees, and long-term ecological stress.</li>
+                <li>Highlighting the urgent need for the predictive modelling my project will aim to provide. </li>
+            </ul>
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(26, 255, 0);" name="build-outline"></ion-icon>
+                <h2 style="color: rgb(26, 255, 0);">Existing solution</h2>
+            </div>
+            <ul style="margin: 20px 0;">
+                <li>COFORD Windthrow Model primary reference for windblow prediction in Ireland.</li>
+                <a style="color: rgb(0, 234, 255);" target="_blank" href="https://www.coford.ie/media/coford/content/publications/cofordarticles/Managing%20forests%20and%20predicting%20windthrow%20risk%20in%20Ireland.pdf">Coford publication</a>
+                <li>It calculates risk based on altitude, location, soil type, and management (thinning), aiding in forestry, planning, and scheduling</li>
+                <li>Developed by:</li>
+                <ul>
+                    <li>UCD</li>
+                    <li>Teagasc</li>
+                    <li>Coillte</li>
+                </ul>
+            </ul>
+
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(0, 115, 255);" name="build-outline"></ion-icon>
+                <h2 style="color: rgb(0, 115, 255);">Model / Alogrithm</h2>
+            </div>
+            <div style="display: flex; gap: 40px; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+            
+            <!-- Autoregression Column -->
+            <div style="flex: 1; min-width: 280px; max-width: 420px; display: flex; flex-direction: column; align-items: center;">
+                <img src="../assets/autoregression meaning.png" style="width: 100%; max-width: 400px; border-radius: 10px;"/>
+                <ul style="margin: 20px 0; width: 100%;">
+                <li>I will choose this model as it is suitable because it handles future weather predictions effectively.</li>
+                </ul>
+            </div>
+
+            <!-- Monte Carlo Column -->
+            <div style="flex: 1; min-width: 280px; max-width: 420px; display: flex; flex-direction: column; align-items: center;">
+                <img src="../assets/monte carlo meaning.png" style="width: 100%; max-width: 400px; border-radius: 10px;"/>
+                <ul style="margin: 20px 0; width: 100%;">
+                <li>I will choose this approach as I have worked with it before and future weather is unpredictable, which the monte carlo accounts for</li>
+                </ul>
+            </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 183);" name="calculator-outline"></ion-icon>
+                <h2 style="color: rgb(225, 0, 183);">Formulas and Risk setpoints</h2>
+            </div>
+            <ul>
+                <li>To move beyond simple rule-based thresholds (e.g., "wind speed > 80km/h"), My project will use a weighted multi-variable risk index</li>
+                <li>Outputting probabilistic variance: utilizing Monte Carlo simulations to account for the uncertainty</li>
+            </ul>
+
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 242, 0);" name="people-outline"></ion-icon>
+                <h2 style="color: rgb(255, 242, 0);">Potential end users</h2>
+            </div>
+            <ul>
+                <li>Coillte CEO Imelda Hurney</li>
+                <ul>
+                    <li><a style="color: rgb(0, 234, 255);" target="_blank" href="https://www.coillte.ie/about-us/our-story/ceo-message/ ">"Our vision is to create a sustainable future for all by delivering the multiple benefits of forestry and leaving an enriched resource for the next generation."</a></li>
+                </ul>
+                <li>Emergency services</li>
+                <ul>
+                    <li>The HSE reported that hospital capacity was heavily impacted by delayed discharges and the need to relocate GPs and services into HSE premises to maintain "safe services"</li>
+                </ul>
+                <li>Energy companies</li>
+                <ul>
+                    <li>At the peak of the storm, 768,000 customers lost power </li>
+                    <li>The storm cost ESB approximately €100 million in network repairs across the Republic and Northern Ireland.</li>
+                </ul>
+            </ul>
+
+
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(0, 255, 110);" name="rose-outline"></ion-icon>
+                <h2 style="color: rgb(0, 255, 110);">Relevance to forests</h2>
+            </div>
+ 
+            <ul>
+                <li>Due to climate change extreme storms which damage forestry are becoming increasing prevalent.</li>
+                <li>With prior notification, teams can perform targeted emergency pruning or thinning to minimise forestry loss </li>
+            </ul>
+
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin: 40px 0;">
+                <ion-icon style="font-size: 30px; color: rgb(255, 0, 0);" name="cog-outline"></ion-icon>
+                <h2 style="color: rgb(255, 0, 0);">Embedded system selection</h2>
+            </div>
+            <ul>
+                <li>Mirco:bit : While a Raspberry Pi offers more processing power, the micro:bit is significantly more cost-effective and accessible for a localized forest deployment</li>
+                <li>I will use a cup anemometer because wind speed is the most heavily weighted variable in forest risk indices</li>
+
+                <li style="margin-top: 10px;">By collecting real-world wind and temp data, I can feed these values into my Python model to satisfy the advanced requirement of using embedded data for predictive analysis</li>
+            </ul>
+ 
+
+
+            </div>
+            
+
+        </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+    </body>
+</html>
+
+<!-- 390  -->

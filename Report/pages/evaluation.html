@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <meta charset="UTF-8" />
+                <link rel="icon" type="image/x-icon" href="../../Model/download.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Evalution</title>
+        <link rel="stylesheet" href="../project.css">
+    </head>
+    <body>
+
+    <nav class="navbar">
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        </label>
+
+        <ul class="nav-links">
+
+            <li><a href="../index.html"> Meeting the brief </a></li>
+            <li><a href="./investigation.html">Investigation</a></li>
+            <li><a href="./plananddesign.html">Plan and design</a></li>
+            <li><a href="./create.html">Create</a></li>
+            <li><a href="./evaluation.html" class="active">Evaluation</a></li>
+            <li><a href="./wordcount.html">Word count</a></li>
+            <li><a href="./references.html">References</a></li>
+            
+        </ul>
+    </nav>
+    <div class="page">
+        <div class="main-container">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <img alt="reflection" src="../assets/mirror.png" style="width: 250px; max-width: 100%;"/>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <ion-icon style="font-size: 40px;" name="person-circle-outline"></ion-icon>
+                <h1>Evaluation</h1>
+
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:14px;color:white;">
+            <thead>
+                <tr>
+                <th style="border:1px solid white;padding:8px 12px;text-align:left;font-weight:500; background-color: #0071a1;">Design Objective</th>
+                <th style="border:1px solid white;padding:8px 12px;text-align:left;font-weight:500; background-color: #0071a1;">Outcome</th>
+                <th style="border:1px solid white;padding:8px 12px;text-align:left;font-weight:500; background-color: #0071a1;">Evidence / Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td style="border:1px solid white;padding:8px 12px;">Embedded Data Collection</td>
+                <td style="border:1px solid white;padding:8px 12px; background-color: #00a13e;">Success</td>
+                <td style="border:1px solid white;padding:8px 12px;">The system captured wind speeds and temperature and logged results during testing.</td>
+                </tr>
+                <tr>
+                <td style="border:1px solid white;padding:8px 12px;">Risk Prediction</td>
+                <td style="border:1px solid white;padding: 8px 12px; background-color: #00a13e;">Success</td>
+                <td style="border:1px solid white;padding:8px 12px;">The Monte Carlo simulation outputted a risk probability with in-depth analysis graphs</td>
+                </tr>
+                <tr>
+                <td style="border:1px solid white;padding:8px 12px;">System Reliability</td>
+                <td style="border:1px solid white;background-color: #df6800; padding:8px 12px;">Partial</td>
+                <td style="border:1px solid white; padding:8px 12px;">Reliance on generalised government data for model training</td>
+                </tr>
+                <tr>
+                <td style="border:1px solid white;padding:8px 12px;">Stakeholder use</td>
+                <td style="border:1px solid white;background-color: #00a13e; padding:8px 12px;">Success</td>
+                <td style="border:1px solid white;padding:8px 12px;">Provided a probabilistic risk index as researched in the COFORD model, And applies to Imelda (CEO of Coillte)</td>
+                </tr>
+            </tbody>
+            </table>
+            <ul style="margin: 20px 0;">
+                <li>Overall I found this project to be the most intresting I have worked on.</li>
+                <li>This project has been a definitive stepping stone for my future career as I aim to pursue a degree in Mathematical Science and Computer Science.</li>
+                <li>I enjoyed working with real world processes and earned a deeper understanding in enviromental modelling and found a new prespective on the noise/uncertainty that is present</li>
+                <li>By applying my leaving cert computer science skills and doing my own self-directed research, it challenged me to move beyond classroom exercises and into the complex world of stochastic modeling and data analysis</li>
+            </ul>
+            <h2>Improvements/future expansion</h2>
+            <ul>
+                <li>Instead of relying on government reports for post storm forestry damage which are often delayed by months and lack pinpoint accuracy</li>
+                <li>Future iterations of this project could utilize <a  style="color: rgb(0, 234, 255);" target="_blank"  href="https://www.sentinel-hub.com/">Sentinel-2 satellite data</a> for accurate post-storm vegetation analysis by calculating the Normalized Difference Vegetation Index (NDVI) before and after an event</li>
+            </ul>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 100%; gap: 20px; margin-top: 20px;">
+                                <img style="max-width: 100%; width: 400px; border-radius: 10px;" src="../assets/nvdi.png" />
+                <img style="max-width: 100%; width: 400px; border-radius: 10px;" src="../assets/how-to-evaluate-ndvi-in-agriculture-normalized-difference-vegetation.jpg" />
+                <img style="max-width: 100%; width: 400px; border-radius: 10px;" src="../assets/vegetation index.png" />
+            </div>  
+        </div>
+    </div>
+    </body>
+</html>
+
+<!-- 220 words -->

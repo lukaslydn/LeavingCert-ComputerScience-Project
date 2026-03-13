@@ -1,3 +1,6 @@
+# This file drops colums that i will not be using
+
+
 import pandas as pd
 from pathlib import Path
 

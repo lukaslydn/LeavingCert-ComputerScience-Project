@@ -12,7 +12,7 @@ body {
   min-height: 100vh;
   background-color: #121922;
 
-  background-image: url("background.png");
+  background-image: url("./assets/background.png");
   background-repeat: no-repeat;
 
   /* keep it frozen to the viewport */
@@ -112,6 +112,7 @@ body {
     justify-content:center;
     align-items:center;
     flex-direction: column;
+    margin-bottom: 500px;
 }
 .main-container {
     color: #fff;

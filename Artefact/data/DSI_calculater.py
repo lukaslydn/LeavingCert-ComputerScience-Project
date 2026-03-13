@@ -1,4 +1,12 @@
 # ==========================================================
+# DSI Calculator
+# ==========================================================
+# This function aims to calculate the damage score index from historical weather inputs
+# This function also computes extra weather reading
+
+# This file was mainly used for testing, development and itterations
+
+# ==========================================================
 # IMPORTS
 # ==========================================================
 import pandas as pd

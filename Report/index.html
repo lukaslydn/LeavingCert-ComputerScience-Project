@@ -5,10 +5,10 @@
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/x-icon" href="../../Model/download.png">
+        <link rel="icon" type="image/x-icon" href="../Report/assets/download.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Computer Science</title>
-        <link rel="stylesheet" href="../project.css">
+        <title>Meeting the brief</title>
+        <link rel="stylesheet" href="./project.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
@@ -25,14 +25,15 @@
         </label>
 
         <ul class="nav-links">
-            <li><a href="./index.html" class="active"> Meeting the brief </a></li>
-            <li><a href="./investigation.html">Investigation</a></li>
-            <li><a href="./plananddesign.html">Plan and design</a></li>
-            <li><a href="./create.html">Create</a></li>
-            <li><a href="./evaluation.html">Evaluation</a></li>
+            <li><a href="/" class="active"> Meeting the brief </a></li>
+            <li><a href="./pages/investigation.html">Investigation</a></li>
+            <li><a href="./pages/plananddesign.html">Plan and design</a></li>
+            <li><a href="./pages/create.html">Create</a></li>
+            <li><a href="./pages/evaluation.html">Evaluation</a></li>
+            <li><a href="./pages/wordcount.html">Word count</a></li>
+            <li><a href="./pages/references.html">References</a></li>
         </ul>
     </nav>
-
 
 
     <div class="page">
@@ -50,7 +51,7 @@
         <div>
             <div style="margin: 40px 0; display: flex; align-items: center; justify-content: center;">
                 <video width="90%" height="auto" style="border-radius: 10px;" controls autoplay>
-                <source src="../assets/mov_bbb.mp4" type="video/mp4">
+                <source src="./assets/mov_bbb.mp4" type="video/mp4">
                 Your browser does not support the video tag.
                 </video>
             </div>
@@ -61,13 +62,13 @@
                 <h2 style="color: #00b7ff;">Basic requirement 1</h2>
                 <ul>
                     <li><mark>Two analogue inputs</mark></li>
-                    <img src="../assets/analog_input_graph.jpg" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
+                    <img src="./assets/analog_input_graph.jpg" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
                     <ul>
                         <li>Cup anaometer - Windspeed</li>
                         <li>Thermometer - Temperature</li>
                     </ul>
                     <li><mark>Two digital inputs</mark></li>
-                    <img src="../assets/digital_input_graph.gif" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
+                    <img src="./assets/digital_input_graph.gif" style="max-width: 300px; height: auto;  border-radius: 6px;"/>
                     <ul style="margin-bottom: 10px;">
                         <li>Button A - Start system</li>
                         <li>Button B - Connect to WiFi + <a href="https://thingspeak.mathworks.com/" target="_blank" style="color: #00f7ff;">ThingSpeak</a></li>
@@ -76,8 +77,8 @@
                     <li><mark>Two primary digital outputs.</mark></li>
 
                     <div>
-                        <img src="../assets/mircobit.png" alt="mircobit" style="max-width: 150px; height: auto;  border-radius: 16px;"/>
-                        <img src="../assets/oled_screen.png" alt="oled screen" style="max-width: 135px; height: auto;  border-radius: 16px;"/>
+                        <img src="./assets/mircobit.png" alt="mircobit" style="max-width: 150px; height: auto;  border-radius: 16px;"/>
+                        <img src="./assets/oled_screen.png" alt="oled screen" style="max-width: 135px; height: auto;  border-radius: 16px;"/>
                     </div>
                     <ul style="margin-bottom: 10px;">
                         <li>LED screen</li>
@@ -95,14 +96,14 @@
             <!-- BASIC REQUIREMENT 2 -->
             <div>
                 <h2 style="color: #00b7ff;">Basic requirement 2</h2>
-                <img src="../assets/BR2_collection.png" alt="mircobit" style="max-width: 300px; height: auto; border-radius: 16px;"/>
+                <img src="./assets/BR2_collection.png" alt="mircobit" style="max-width: 300px; height: auto; border-radius: 16px;"/>
                 <ul style="margin-bottom: 20px;">
                     <li><mark>Windspeed is collected by Cup anemometer</mark><br/></li>
                     <li><mark>Temperature is collected by thermometer</mark></li>
                 </ul>
 
                 
-                <img src="../assets/image.png" alt="mircobit" style="max-width: 300px; height: auto;  border-radius: 16px;"/>
+                <img src="./assets/image.png" alt="mircobit" style="max-width: 300px; height: auto;  border-radius: 16px;"/>
                 <ul style="margin-bottom: 20px;">
                     <li><mark>The data is stored in ThingSpeak and exported as a CSV and used directly by the computer model</mark></li>
                 </ul>
@@ -164,19 +165,19 @@
                         <li>In each simulation a 7-day future path for each variable is generated using an</li>
                         <li><mark>Autoregressive predictive model</mark></li>
                         <div style="margin: 20px 0;">
-                            <img src="../assets/model/autoregressive math.png" style="max-width: 300px; border-radius: 10px;">
-                            <img src="../assets/model/temp paths.png" style="max-width: 300px; border-radius: 10px;"/>
-                            <img src="../assets/model/temp distribution.png" style="max-width: 300px; border-radius: 10px;"/>
+                            <img src="./assets/model/autoregressive math.png" style="max-width: 300px; border-radius: 10px;">
+                            <img src="./assets/model/temp paths.png" style="max-width: 300px; border-radius: 10px;"/>
+                            <img src="./assets/model/temp distribution.png" style="max-width: 300px; border-radius: 10px;"/>
                         </div>
                         <li><mark>System computes a Damage score index (DSI) for each simulation</mark></li>
-                        <img src="../assets/model/dsi formula.png" style="max-width: 500px; border-radius: 10px;" />
+                        <img src="./assets/model/dsi formula.png" style="max-width: 500px; border-radius: 10px;" />
                         <li style="margin-bottom: 20px;">The probability of a damaging event is calculated as the fraction of simulated scenarios where the maximum DSI exceeds 0.35 ( as this was the DSI that damaging storms like Storm Éowyn exceeded )</li>
-                        <img src="../assets/MultivariableDSI.png" style="max-width: 300px; border-radius: 10px;" />
+                        <img src="./assets/MultivariableDSI.png" style="max-width: 300px; border-radius: 10px;" />
                         <li>Forestry damage is then estimated from DSI score</li>
                         <ul>
                             <li>If the DSI doesnt reach a certain threshold, damage for that simulation is considered to be 0 ( trees have a tipping point )</li>
                         </ul>
-                        <img src="../assets/damage response to DSI.png" style="max-width: 300px; border-radius: 10px;"/>
+                        <img src="./assets/damage response to DSI.png" style="max-width: 300px; border-radius: 10px;"/>
                     </ul>
                 </div>
 
@@ -202,9 +203,9 @@
                 <h2 style="color: #00b7ff;">Advanced requirement 2</h2>
                 <ul style="margin-bottom: 20px;">
                         <li><mark>What if Max Gust (kt) and Mean Wind Speed (kt) increased by 40% ?</mark></li>
-                        <img src="../assets/model/beforeafterwind.jpg" style="max-width: 100%; border-radius: 10px;" />
+                        <img src="./assets/model/beforeafterwind.jpg" style="max-width: 100%; border-radius: 10px;" />
                         <li><mark>What if Max Temp (C) and Rain (mm) decreased by 80% ?</mark></li>
-                        <img src="../assets/model/beforeaftertemprain.jpg" style="max-width: 100%; border-radius: 10px;" />
+                        <img src="./assets/model/beforeaftertemprain.jpg" style="max-width: 100%; border-radius: 10px;" />
                     </li>
                     <li>The system allows the user to edit:</li>
                     <ul>
@@ -212,7 +213,7 @@
                         <li>Number of days into the future</li>
                         <li>Number of simulation worlds</li>
                     </ul>
-                    <img style="width: 600px; max-width: 100%; border-radius: 10px;" src="../assets/model/historical + whatif.png" />
+                    <img style="width: 600px; max-width: 100%; border-radius: 10px;" src="./assets/model/historical + whatif.png" />
                 </ul>
             </div>
 
@@ -224,7 +225,7 @@
             <!-- ADAPTIVE SYSTEM -->
             <div>
                 <h2 style="color: #00b7ff;">Advanced requirement 3</h2>
-                <img src="../assets/notis.png" style="max-width: 400px; border-radius: 10px;"/>
+                <img src="./assets/notis.png" style="max-width: 400px; border-radius: 10px;"/>
                 <ul>
                     <li>My model classifies risk into multiple levels</li>
                     <ul>
